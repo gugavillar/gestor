@@ -1,0 +1,46 @@
+<div class="container big">
+	<h5 class="center-align"><strong>Lista de Veiculos</strong></h5>
+	<div class="row">
+		<div class="input-field col s6 m4 l4 offset-s6 offset-m8 offset-l8">
+			<i class="material-icons prefix">search</i>
+			<input class="tooltipped" id="query" name="query" type="text" maxlength="8" data-ng-model="lista.query"
+				data-ng-change="lista.search()" data-uiplaca data-position="bottom"
+				data-tooltip="Digite a placa do veículo">
+			<label for="query">Buscar Veículo</label>
+		</div>
+	</div>
+	<table class="table highlight responsive-table centered" at-table at-paginated at-list="lista.veiculos"
+		at-config="lista.config">
+		<thead></thead>
+		<tbody>
+			<tr>
+				<td at-title="Tipo" at-implicit at-attribute="tipo_veiculo" at-sortable width="20%"></td>
+				<td at-title="Marca" at-implicit at-attribute="marca_veiculo | marcaVeiculo:item.tipo_veiculo"
+					width="20%"></td>
+				<td data-uimodelo at-title="Veículo" at-implicit at-attribute="modelo_veiculo" width="15%">
+				</td>
+				<td at-title="Placa" at-implicit at-attribute="placa_veiculo | Placa" width="15%"></td>
+				<td at-title="Ação" width="15%">
+					<button tooltips class="btn-floating red" tooltip-side="bottom" tooltip-template="Excluir veículo"
+						data-ng-click="lista.modal(item)"><i class="material-icons">delete</i></button>
+					<button tooltips class="btn-floating hide-on-med-and-down" tooltip-side="bottom"
+						tooltip-template="Editar veículo"
+						data-ui-sref="menu.editarveiculo({id_veiculo: item.id_veiculo})"><i
+							class="material-icons">mode_edit</i></button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<at-pagination class="right-align" at-list="lista.veiculos" at-config="lista.config"></at-pagination>
+</div>
+<div id="excluir_veiculo" class="modal">
+	<div class="modal-content center-align">
+		<h4>ALERTA!</h4>
+		<p class="flow-text">Deseja excluir o veículo de placa {{lista.modal_data.placa_veiculo | Placa}} ?</p>
+	</div>
+	<div class="modal-footer">
+		<button data-ng-click="lista.excluir(lista.modal_data.id_veiculo)"
+			class="modal-action modal-close waves-effect waves-green btn-flat">Sim</button>
+		<button class="modal-action modal-close waves-effect waves-red btn-flat">Não</button>
+	</div>
+</div>

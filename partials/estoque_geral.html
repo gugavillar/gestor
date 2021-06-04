@@ -1,0 +1,34 @@
+<div class="container">
+	<h5 class="center-align noprint"><strong>Estoque Geral</strong></h5>
+	<table data-ng-if="estoque.produtosestoque.length > 0" class="col s12">
+		<tr>
+			<td class="center-align"><img class="pref" src="dist/img/pmg.png" alt="Prefeitura de Gravatá"></td>
+		</tr>
+	</table>
+	<div data-ng-if="estoque.produtosestoque.length > 0" class="col s12 center-align">
+		<div class="col s12 center-align">
+			<h5>Estoque do Dia {{estoque.data | date:'dd/MM/yyyy'}}</h5>
+		</div>
+		<table class="bordered centered col s12 responsive-table">
+			<thead>
+				<tr>
+					<th class="center-align">Produto</th>
+					<th class="center-align">Localização</th>
+					<th class="center-align">Quantidade</th>
+					<th class="center-align">Unidade</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="item in estoque.produtosestoque | orderBy:'descricao_produto'">
+					<td>{{item.descricao_produto}}</td>
+					<td>{{item.localizacao_produto}}</td>
+					<td>{{item.quantidade_comprada - item.quantidade_saida}}</td>
+					<td>{{item.unidade_produto}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div data-ng-if="estoque.produtosestoque.length === 0" class="col s12 center-align">
+		<h5><strong>Não há Estoque</strong></h5>
+	</div>
+</div>

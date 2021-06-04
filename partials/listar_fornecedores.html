@@ -1,0 +1,46 @@
+<div class="container big">
+	<h5 class="center-align"><strong>Lista de Fornecedores</strong></h5>
+	<div class="row">
+		<div class="input-field col s6 m4 l4 offset-s6 offset-m8 offset-l8">
+			<i class="material-icons prefix">search</i>
+			<input class="tooltipped" id="query" name="query" type="text" maxlength="20" data-ng-model="lista.query"
+				data-ng-change="lista.search()" data-uppercase data-position="bottom"
+				data-tooltip="Digite o fornecedor">
+			<label for="query">Buscar Fornecedor</label>
+		</div>
+	</div>
+	<table class="table highlight responsive-table centered col s12" at-table at-paginated at-list="lista.fornecedores"
+		at-config="lista.config">
+		<thead></thead>
+		<tbody>
+			<tr>
+				<td at-title="CNPJ" width="10%" at-implicit at-attribute="cnpj_fornecedor | cnpj"></td>
+				<td at-title="Nome" width="25%" at-implicit at-attribute="nome_fornecedor" at-sortable></td>
+				<td at-title="Endereço" width="25%" at-implicit at-attribute="logradouro_fornecedor"></td>
+				<td at-title="Email" width="10%" at-implicit at-attribute="email_fornecedor"></td>
+				<td at-title="Cidade" width="15%" at-implicit at-attribute="cidade_fornecedor"></td>
+				<td at-title="Ação" width="15%">
+					<button tooltips class="btn-floating red" tooltip-side="bottom"
+						tooltip-template="Excluir fornecedor" data-ng-click="lista.modal(item)"><i
+							class="material-icons">delete</i></button>
+					<button tooltips class="btn-floating hide-on-med-and-down" tooltip-side="bottom"
+						tooltip-template="Editar fornecedor"
+						data-ui-sref="menu.editarfornecedor({id_fornecedor: item.id_fornecedor})"><i
+							class="material-icons">mode_edit</i></button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<at-pagination class="right-align" at-list="lista.fornecedores" at-config="lista.config"></at-pagination>
+</div>
+<div id="excluir_fornecedor" class="modal">
+	<div class="modal-content center-align">
+		<h4>ALERTA!</h4>
+		<p class="flow-text">Deseja excluir o fornecedor {{lista.modal_data.nome_fornecedor}} ?</p>
+	</div>
+	<div class="modal-footer">
+		<button data-ng-click="lista.excluir(lista.modal_data.id_fornecedor)"
+			class="modal-action modal-close waves-effect waves-green btn-flat">Sim</button>
+		<button class="modal-action modal-close waves-effect waves-red btn-flat">Não</button>
+	</div>
+</div>

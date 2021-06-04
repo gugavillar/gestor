@@ -1,0 +1,82 @@
+<div class="container">
+	<div class="row right-align">
+		<button class="waves-effect waves-light btn noprint btn-imprimir" data-ng-click="imprimir.print()"><i
+				class="material-icons right">print</i>Imprimir</button>
+	</div>
+	<div class="row center-align">
+		<img class="pref" src="dist/img/pmg.png" alt="Prefeitura de Gravatá">
+	</div>
+	<div class="col s12 center-align">
+		<h5><strong>Guia de Distribuição de Produtos</strong></h5>
+		<table class="bordered centered col s12">
+			<tr>
+				<td><strong>DATA DA GUIA:</strong>&nbsp;{{imprimir.guia.data_saida | date:'dd/MM/yyyy'}}</td>
+				<td><strong>USUÁRIO:</strong>&nbsp;{{imprimir.guia.name}}</td>
+				<td><strong>Nº:</strong>&nbsp;{{imprimir.guia.num_saida}}</td>
+			</tr>
+			<tr>
+				<td colspan="2"><strong>RESPONSÁVEL PELO DEPARTAMENTO:</strong>&nbsp;{{imprimir.guia.responsavel_departamento}}
+				</td>
+				<td><strong>Nº DA CI:</strong>&nbsp;{{imprimir.guia.oficio_saida}}</td>
+			</tr>
+		</table>
+	</div>
+	<div class="col s12 center-align">
+		<h5><strong>Dados do Departamento</strong></h5>
+		<table class="bordered col s12">
+			<tr>
+				<td colspan="2"><strong>NOME:</strong>&nbsp;{{imprimir.guia.nome_departamento}}</td>
+			</tr>
+			<tr>
+				<td><strong>ENDEREÇO:</strong>&nbsp;{{imprimir.guia.logradouro_departamento}},&nbsp;{{imprimir.guia.numero_departamento}}
+				</td>
+				<td><strong>CEP:</strong>&nbsp;{{imprimir.guia.cep_departamento | cep}}</td>
+			</tr>
+			<tr>
+				<td><strong>BAIRRO:</strong>&nbsp;{{imprimir.guia.bairro_departamento}}</td>
+				<td><strong>CIDADE/UF:</strong>&nbsp;{{imprimir.guia.cidade_departamento}}&nbsp;-&nbsp;{{imprimir.guia.estado_departamento}}
+				</td>
+			</tr>
+			<tr data-ng-if="imprimir.guia.complemento_departamento">
+				<td><strong>COMPLEMENTO:</strong>&nbsp;{{imprimir.guia.complemento_departamento}}</td>
+			</tr>
+			<tr data-ng-if="imprimir.guia.referencia_departamento">
+				<td><strong>REFERÊNCIA:</strong>&nbsp;{{imprimir.guia.referencia_departamento}}</td>
+				<td></td>
+			</tr>
+		</table>
+	</div>
+	<div class="col s12 center-align">
+		<h5><strong>Dados dos Produtos Entregues</strong></h5>
+	</div>
+	<div class="col s12 center-align">
+		<table class="bordered centered">
+			<thead>
+				<tr>
+					<th class="center-align">Produto</th>
+					<th class="center-align">Quantidade</th>
+					<th class="center-align">Unidade</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="item in imprimir.produtos | orderBy:'descricao_produto'">
+					<td>{{item.descricao_produto}}</td>
+					<td>{{item.quantidade_saida_itenssaida}}</td>
+					<td>{{item.unidade_produto}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="footer col s11 onlyprint">
+		<div class="col s6">
+			<hr>
+			<p class="center-align">Assinatura do Entregador</p>
+			<p>Cargo:</p>
+		</div>
+		<div class="col s6">
+			<hr>
+			<p class="center-align">Responsável pelo Recebimento</p>
+			<p>Cargo:</p>
+		</div>
+	</div>
+</div>

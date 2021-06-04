@@ -1,0 +1,94 @@
+<div class="container">
+	<h5 class="center-align"><strong>Gerar Guia de Saída</strong></h5>
+	<div class="row">
+		<form name="formGuia" data-ng-submit="gerar.cadastrar()">
+			<div class="row">
+				<div class="input-field col s12 m8 l8">
+					<i class="material-icons prefix">business</i>
+					<select
+						data-ng-options="departamento.id_departamento as departamento.nome_departamento for departamento in gerar.departamentos | orderBy:'nome_departamento'"
+						data-ng-model="gerar.dados.id_departamento_saida" data-ng-disabled="gerar.block" required>
+						<option value="" disabled selected>ESCOLHA O DEPARTAMENTO</option>
+					</select>
+					<label>Departamento</label>
+				</div>
+				<div class="input-field col s12 m4 l4">
+					<input id="oficio_saida" name="oficio_saida" data-ng-model="gerar.dados.oficio_saida"
+						data-ng-pattern="/^([0-9]{3}\/[0-9]{4})$/" data-ng-minlength="8"
+						data-ng-class="{'invalid': formGuia.oficio_saida.$error.minlength || formGuia.oficio_saida.$error.pattern}"
+						data-uioficio type="text" maxlength="8" data-ng-disabled="gerar.block" required>
+					<label for="oficio_saida">N˚ CI</label>
+				</div>
+			</div>
+			<div class="row right-align">
+				<button class="waves-effect waves-light btn"
+					data-ng-disabled="formGuia.$invalid || gerar.block">Gerar</button>
+			</div>
+		</form>
+		<form name="formProdutos" data-ng-submit="gerar.inserir()">
+			<div class="row">
+				<div class="input-field col s12 m5 l7">
+					<i class="material-icons prefix">shopping_cart</i>
+					<select data-ng-change="gerar.getEstoque(gerar.itens.id_produto_itenssaida)"
+						data-ng-options="produto.id_produto as produto.descricao_produto disable when produto.disabled === true for produto in gerar.produtos | orderBy:'descricao_produto'"
+						data-ng-model="gerar.itens.id_produto_itenssaida" data-ng-disabled="!gerar.block" required>
+						<option value="" disabled selected>ESCOLHA O PRODUTO</option>
+					</select>
+					<label>Produto</label>
+				</div>
+				<div class="input-field col s12 m2 l2">
+					<input class="right-align" id="disponivel_estoque" name="disponivel_estoque" type="text" required
+						data-ng-model="gerar.itens.disponivel_estoque" data-ng-pattern="/^((?=\S)(\d{1,10}))$/"
+						data-ng-minlength="1"
+						data-ng-class="{'invalid': formProdutos.disponivel_estoque.$error.minlength || formProdutos.disponivel_estoque.$error.pattern}"
+						data-uinum maxlength="10" disabled>
+					<label for="disponivel_estoque">Disponível</label>
+				</div>
+				<div class="input-field col s12 m2 l2">
+					<input data-ng-change="gerar.check()" class="right-align" id="quantidade_saida_itenssaida"
+						name="quantidade_saida_itenssaida" type="text" required
+						data-ng-model="gerar.itens.quantidade_saida_itenssaida" data-ng-pattern="/^((?=\S)(\d{1,10}))$/"
+						data-ng-minlength="1"
+						data-ng-class="{'invalid': formProdutos.quantidade_saida_itenssaida.$error.minlength || formProdutos.quantidade_saida_itenssaida.$error.pattern}"
+						data-uinum maxlength="10" data-ng-disabled="!gerar.block">
+					<label for="quantidade_saida_itenssaida">Quantidade</label>
+				</div>
+				<button class="btn-floating btn-floating-guia" data-ng-disabled="formProdutos.$invalid"><i
+						class="material-icons">add</i></button>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="container big">
+	<div class="col s12 center-align" data-ng-if="gerar.produtosGuia.length >= 1">
+		<button class="waves-effect waves-light btn btn-visualizar"
+			data-ui-sref="menu.imprimirguiasaida({id_saida: gerar.dados.id_saida})"><i
+				class="material-icons left">description</i>Visualizar</button>
+	</div>
+	<div data-ng-if="gerar.produtosGuia.length >= 1">
+		<div class="col s12 center-align">
+			<h5>Produtos Distribuídos</h5>
+			<table class="bordered centered">
+				<thead>
+					<tr>
+						<th class="center-align">Produto</th>
+						<th class="center-align">Quantidade</th>
+						<th class="center-align">Und</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-repeat="item in gerar.produtosGuia | orderBy:'descricao_produto'">
+						<td>{{item.descricao_produto}}</td>
+						<td>{{item.quantidade_saida_itenssaida}}</td>
+						<td>{{item.unidade_produto}}</td>
+						<td>
+							<button class="btn-floating red"
+								data-ng-click="gerar.excluir(item.id_itenssaida, item.id_produto)"><i
+									class="material-icons">delete</i></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

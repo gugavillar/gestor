@@ -1,0 +1,89 @@
+<div class="container">
+	<div class="row right-align">
+		<a data-ng-disabled="!imprimir.filecontrato" class="waves-effect waves-light btn noprint btn-nota" data-ng-href="{{imprimir.filecontrato}}"
+			target="_blank"><i class="material-icons right">attach_file</i>Contrato</a>
+		<button class="waves-effect waves-light btn noprint btn-imprimir" data-ng-click="imprimir.print()"><i
+				class="material-icons right">print</i>Imprimir</button>
+	</div>
+	<div class="row center-align">
+		<img class="pref" src="dist/img/pmg.png" alt="Prefeitura de Gravatá">
+	</div>
+	<div class="col s12 center-align">
+		<h5><strong>Contrato de N˚ {{imprimir.contrato.num_contrato}}</strong></h5>
+		<table class="bordered centered col s12">
+			<tr>
+				<td><strong>TIPO CONTRATO:</strong>&nbsp;{{imprimir.contrato.tipo_contrato | tipoContrato}}</td>
+				<td><strong>VIGÊNCIA:</strong>&nbsp;{{imprimir.contrato.inicio_contrato | date:'dd/MM/yyyy'}} ATÉ
+					{{imprimir.contrato.fim_contrato | date:'dd/MM/yyyy'}}</td>
+			</tr>
+			<tr>
+				<td colspan="2"><strong>SIGLA:</strong>&nbsp;{{imprimir.contrato.sigla_contrato}}</td>
+			</tr>
+			<tr>
+				<td colspan="2"><strong>OBJETO:</strong>&nbsp;{{imprimir.contrato.objeto_contrato}}</td>
+			</tr>
+		</table>
+	</div>
+	<div class="col s12 center-align">
+		<h5><strong>Dados do Fornecedor</strong></h5>
+		<table class="bordered col s12">
+			<tr>
+				<td><strong>NOME:</strong>&nbsp;{{imprimir.contrato.nome_fornecedor}}</td>
+				<td><strong>CNPJ:</strong>&nbsp;{{imprimir.contrato.cnpj_fornecedor | cnpj}}</td>
+			</tr>
+			<tr>
+				<td><strong>ENDEREÇO:</strong>&nbsp;{{imprimir.contrato.logradouro_fornecedor}},&nbsp;{{imprimir.contrato.numero_fornecedor}}
+				</td>
+				<td><strong>CEP:</strong>&nbsp;{{imprimir.contrato.cep_fornecedor | cep}}</td>
+			</tr>
+			<tr>
+				<td><strong>BAIRRO:</strong>&nbsp;{{imprimir.contrato.bairro_fornecedor}}</td>
+				<td><strong>CIDADE/UF:</strong>&nbsp;{{imprimir.contrato.cidade_fornecedor}} -
+					{{imprimir.contrato.estado_fornecedor}}</td>
+			</tr>
+			<tr data-ng-if="imprimir.contrato.complemento_fornecedor">
+				<td><strong>COMPLEMENTO:</strong>&nbsp;{{imprimir.contrato.complemento_fornecedor}}</td>
+			</tr>
+			<tr>
+				<td><strong>CONTATO:</strong>&nbsp;{{imprimir.contrato.contato_fornecedor}}</td>
+				<td><strong>EMAIL:</strong>&nbsp;{{imprimir.contrato.email_fornecedor}}</td>
+			</tr>
+		</table>
+	</div>
+	<div class="col s12 center-align">
+		<h5><strong>Produtos do Contrato</strong></h5>
+	</div>
+</div>
+<div class="container big">
+	<div class="col s12 center-align">
+		<table class="bordered centered">
+			<thead>
+				<tr>
+					<th class="center-align produto">Produto</th>
+					<th class="center-align">Und</th>
+					<th class="center-align">Saldo</th>
+					<th class="center-align">Em Uso</th>
+					<th class="center-align">Valor Unitário</th>
+					<th class="center-align">Valor Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="item in imprimir.produtos | orderBy:'descricao_produto'">
+					<td class="produto">{{item.descricao_produto}}</td>
+					<td>{{item.unidade_produto}}</td>
+					<td>{{item.saldo_produto_itenscontrato}}</td>
+					<td>{{item.saldo_produto_emuso_itenscontrato}}</td>
+					<td>{{item.valor_produto_itenscontrato | currency:'R$ ':2}}</td>
+					<td>{{item.valor_produto_itenscontrato * item.saldo_produto_itenscontrato | currency:'R$ ':2}}</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th class="right-align" colspan="5">Valor Total do Contrato</th>
+					<th class="center-align">{{imprimir.produtos |
+						SomaTotal:'valor_produto_itenscontrato':'saldo_produto_itenscontrato' | currency:'R$ ':2}}</th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,111 @@
+<div class="container">
+	<h5 class="center-align"><strong>Cadastrar Departamento</strong></h5>
+	<form class="col s12 m12 l12" name="formDepartamento" data-ng-submit="departamento.cadastrar()">
+		<div class="row">
+			<div class="input-field col s12 m12 l12">
+				<i class="material-icons prefix">business</i>
+				<input id="nome_departamento" name="nome_departamento" type="text" maxlength="150" required
+					data-ng-minlength="5" data-ng-pattern="/^((?=\w\S)([A-Z0-9\.\,\u00C0-\u00FF\(\)\u0027\s]{5,150}))$/"
+					data-ng-model="departamento.novo.nome_departamento"
+					data-ng-class="{'invalid': formDepartamento.nome_departamento.$error.minlength || formDepartamento.nome_departamento.$error.pattern}"
+					data-uppercase>
+				<label for="nome_departamento">Departamento</label>
+			</div>
+			<div class="input-field col s12 m6 l6">
+				<i class="material-icons prefix">person</i>
+				<input id="responsavel_departamento" name="responsavel_departamento" type="text" maxlength="150"
+					required data-ng-minlength="5"
+					data-ng-pattern="/^((?=\w\S)([A-Z0-9\.\,\u00C0-\u00FF\(\)\u0027\s]{5,150}))$/"
+					data-ng-model="departamento.novo.responsavel_departamento"
+					data-ng-class="{'invalid': formDepartamento.responsavel_departamento.$error.minlength || formDepartamento.responsavel_departamento.$error.pattern}"
+					data-uppercase>
+				<label for="responsavel_departamento">Responsável</label>
+			</div>
+			<div class="input-field col s12 m6 l6">
+				<i class="material-icons prefix">phone</i>
+				<input id="tel_responsavel_departamento" name="tel_responsavel_departamento" maxlength="15" required
+					data-ng-minlength="14 || 15" data-ng-pattern="/^(\(\d{2}\) \d{4,5}-\d{4})/" type="text"
+					data-ng-model="departamento.novo.tel_responsavel_departamento"
+					data-ng-class="{'invalid': formDepartamento.tel_responsavel_departamento.$error.minlength || formDepartamento.tel_responsavel_departamento.$error.pattern}"
+					data-uiphone>
+				<label for="tel_responsavel_departamento">Telefone</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12 m3 l3">
+				<input id="cep_departamento" name="cep_departamento" type="text" maxlength="9" required
+					data-ng-minlength="9" data-ng-pattern="/^((?=\S)(\d{5}-\d{3}))$/"
+					data-ng-model="departamento.novo.cep_departamento"
+					data-ng-blur="departamento.getEndereco(departamento.novo.cep_departamento)"
+					data-ng-class="{'invalid': formDepartamento.cep_departamento.$error.minlength || formDepartamento.cep_departamento.$error.pattern}"
+					data-uicep>
+				<label for="cep_departamento">Cep</label>
+			</div>
+			<div class="input-field col s10 m7 l7">
+				<i class="material-icons prefix">map</i>
+				<input id="cidade_departamento" name="cidade_departamento" type="text" maxlength="200" required
+					data-ng-minlength="5" data-ng-pattern="/^((?=\S)([A-Z0-9\.\,\u00C0-\u00FF\s]{5,200}))$/"
+					data-ng-model="departamento.novo.cidade_departamento"
+					data-ng-class="{'invalid': formDepartamento.cidade_departamento.$error.minlength || formDepartamento.cidade_departamento.$error.pattern}"
+					data-uppercase>
+				<label for="cidade_departamento">Cidade</label>
+			</div>
+			<div class="input-field col s2 m2 l2">
+				<input id="estado_departamento" name="estado_departamento" type="text" maxlength="2"
+					data-ng-minlength="2" data-ng-pattern="/^((?=\S)([A-Z]{2}))$/"
+					data-ng-model="departamento.novo.estado_departamento"
+					data-ng-class="{'invalid': formDepartamento.estado_departamento.$error.minlength || formDepartamento.estado_departamento.$error.pattern}"
+					data-uppercase>
+				<label for="estado_departamento">Estado</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s10 m10 l10">
+				<i class="material-icons prefix">place</i>
+				<input id="endereco_departamento" name="endereco_departamento" type="text" maxlength="300" required
+					data-ng-minlength="5" data-ng-pattern="/^((?=\w\S)([A-Z0-9\.\,\u00C0-\u00FF\u0027\s]{5,300}))$/"
+					data-ng-model="departamento.novo.logradouro_departamento"
+					data-ng-class="{'invalid': formDepartamento.endereco_departamento.$error.minlength || formDepartamento.endereco_departamento.$error.pattern}"
+					data-uppercase>
+				<label for="endereco_departamento">Endereço</label>
+			</div>
+			<div class="input-field col s2 m2 l2">
+				<input id="numero_departamento" name="numero_departamento" type="text" maxlength="10" required
+					data-ng-minlength="1" data-ng-pattern="/(^\d{1,10}[A-Z]?)|(S\/N)$/"
+					data-ng-model="departamento.novo.numero_departamento"
+					data-ng-class="{'invalid': formDepartamento.numero_departamento.$error.minlength || formDepartamento.numero_departamento.$error.pattern}"
+					data-uppercase>
+				<label for="numero_departamento">N˚</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12 m4 l4">
+				<input id="bairro_departamento" name="bairro_departamento" type="text" maxlength="200" required
+					data-ng-minlength="5" data-ng-pattern="/^((?=\S)([A-Z0-9\.\,\u00C0-\u00FF\s]{5,200}))$/"
+					data-ng-model="departamento.novo.bairro_departamento"
+					data-ng-class="{'invalid': formDepartamento.bairro_departamento.$error.minlength || formDepartamento.bairro_departamento.$error.pattern}"
+					data-uppercase>
+				<label for="bairro_departamento">Bairro</label>
+			</div>
+			<div class="input-field col s12 m4 l4">
+				<input id="complemento_departamento" name="complemento_departamento" type="text" maxlength="200"
+					data-ng-minlength="5" data-ng-pattern="/^((?=\S)([A-Z0-9\.\,\u00C0-\u00FF\s]{5,200}))$/"
+					data-ng-model="departamento.novo.complemento_departamento"
+					data-ng-class="{'invalid': formDepartamento.complemento_departamento.$error.minlength || formDepartamento.complemento_departamento.$error.pattern}"
+					data-uppercase>
+				<label for="complemento_departamento">Complemento</label>
+			</div>
+			<div class="input-field col s12 m4 l4">
+				<input id="referencia_departamento" name="referencia_departamento" type="text" maxlength="200"
+					data-ng-minlength="5" data-ng-pattern="/^((?=\S)([A-Z0-9\.\,\u00C0-\u00FF\s]{5,200}))$/"
+					data-ng-model="departamento.novo.referencia_departamento"
+					data-ng-class="{'invalid': formDepartamento.referencia_departamento.$error.minlength || formDepartamento.referencia_departamento.$error.pattern}"
+					data-uppercase>
+				<label for="referencia_departamento">Ponto de Referência</label>
+			</div>
+		</div>
+		<div class="row right-align">
+			<button class="waves-effect waves-light btn" data-ng-disabled="formDepartamento.$invalid">Cadastrar</button>
+		</div>
+	</form>
+</div>

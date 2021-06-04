@@ -1,0 +1,86 @@
+<div class="container">
+	<div class="row right-align">
+		<button class="waves-effect waves-light btn noprint btn-imprimir" data-ng-click="imprimir.print()"><i
+				class="material-icons right">print</i>Imprimir</button>
+	</div>
+	<div class="row">
+		<div class="col s12 center-align">
+			<img class="pref" src="dist/img/pmg.png" alt="Prefeitura de Gravatá">
+		</div>
+	</div>
+	<div class="col s12 center-align">
+		<h5><strong>ORDEM DE N˚ {{imprimir.ordem.num_ordemfornecimento}}&nbsp;-&nbsp;{{imprimir.ordem.data_ordemfornecimento|
+				date:'dd/MM/yyyy'}}</strong></h5>
+		<table class="bordered centered col s12">
+			<tr>
+				<td colspan="3"><strong>FORNECEDOR:</strong>&nbsp;{{imprimir.ordem.nome_fornecedor}}</td>
+			</tr>
+			<tr>
+				<td><strong>CONTRATO:</strong>&nbsp;{{imprimir.ordem.sigla_contrato}}&nbsp;-&nbsp;{{imprimir.ordem.num_contrato}}
+				</td>
+				<td><strong>PERÍODO:</strong>&nbsp;{{imprimir.ordem.periodo_ordemfornecimento}}</td>
+				<td><strong>PRIORIDADE:</strong>&nbsp;{{imprimir.ordem.prioridade_ordemfornecimento | Prioridade}}</td>
+			</tr>
+			<tr>
+				<td colspan="3"><strong>OBJETO:</strong>&nbsp;{{imprimir.ordem.objeto_contrato}}</td>
+			</tr>
+			<tr>
+				<td colspan="3"><strong>DEPARTAMENTO:</strong>&nbsp;{{imprimir.ordem.nome_departamento}}</td>
+			</tr>
+			<tr>
+				<td colspan="3"><strong>LOCAL DE ENTREGA:</strong>&nbsp;{{imprimir.ordem.local_ordemfornecimento}}</td>
+			</tr>
+		</table>
+	</div>
+	<div class="col s12 center-align">
+		<h5><strong>Produtos da Ordem</strong></h5>
+	</div>
+</div>
+<div class="container big">
+	<div class="col s12 center-align">
+		<table class="bordered centered table-ordem">
+			<thead>
+				<tr>
+					<th class="center-align produto">Produto</th>
+					<th class="center-align">Und</th>
+					<th class="center-align">Fabricante/Marca</th>
+					<th class="center-align">Quantidade</th>
+					<th class="center-align">Valor Unitário</th>
+					<th class="center-align">Valor Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="item in imprimir.produtos | orderBy:'descricao_produto'">
+					<td class="produto">{{item.descricao_produto}}</td>
+					<td>{{item.unidade_produto}}</td>
+					<td>{{item.fabricante_produto}}</td>
+					<td>{{item.quantidade_produto_itensordemfornecimento}}</td>
+					<td>{{item.valor_produto_itensordemfornecimento | currency:'R$ ':2}}</td>
+					<td>{{item.valor_produto_itensordemfornecimento * item.quantidade_produto_itensordemfornecimento |
+						currency:'R$ ':2}}</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th class="right-align" colspan="5">Valor Total da Ordem</th>
+					<th class="center-align">{{imprimir.produtos |
+						SomaTotal:'valor_produto_itensordemfornecimento':'quantidade_produto_itensordemfornecimento' |
+						currency:'R$ ':2}}</th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	<div class="row center-align onlyprint">
+		<p>{{imprimir.ordem.observacao_ordemfornecimento}}</p>
+	</div>
+	<div class="footer-sign col s10 onlyprint">
+		<div class="col s6">
+			<hr>
+			<p class="center-align">Diretoria Administrativa</p>
+		</div>
+		<div class="col s6">
+			<hr>
+			<p class="center-align">Secretário</p>
+		</div>
+	</div>
+</div>

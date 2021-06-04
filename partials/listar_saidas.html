@@ -1,0 +1,62 @@
+<div class="container big">
+	<h5 class="center-align"><strong>Lista de Guias de Saída</strong></h5>
+	<div class="row">
+		<div class="input-field col s6 m4 l4 offset-s6 offset-m8 offset-l8">
+			<i class="material-icons prefix">search</i>
+			<input class="tooltipped" id="query" name="query" type="text" maxlength="10" data-ng-model="lista.query"
+				data-ng-change="lista.search()" data-uinum data-position="bottom" data-tooltip="Digite número da guia">
+			<label for="query">Buscar Saída</label>
+		</div>
+	</div>
+	<table class="table highlight responsive-table centered" at-table at-paginated at-list="lista.guides"
+		at-config="lista.config">
+		<thead></thead>
+		<tbody>
+			<tr>
+				<td at-title="Nº Guia" at-implicit at-sortable at-attribute="num_saida" width="10%"></td>
+				<td at-title="Departamento" at-implicit at-attribute="nome_departamento" width="25%"></td>
+				<td at-title="Emissão" at-sortable width="15%" data-ng-bind="item.data_saida | date:'dd/MM/yyyy'"></td>
+				<td at-title="N˚ CI" at-implicit at-attribute="oficio_saida" width="15%"></td>
+				<td at-title="Usuário" at-implicit at-attribute="name" width="15%"></td>
+				<td at-title="Ação" width="20%">
+					<button tooltips class="btn-floating red" tooltip-side="bottom"
+						tooltip-template="Excluir guia de saída"
+						data-ng-click="lista.modal(item.id_saida, item.num_saida)"><i
+							class="material-icons">delete</i></button>
+					<button tooltips class="btn-floating hide-on-med-and-down" tooltip-side="bottom"
+						tooltip-template="Editar guia de saída"
+						data-ui-sref="menu.editarguiasaida({id_saida: item.id_saida})"><i
+							class="material-icons">mode_edit</i></button>
+					<a tooltips class="btn-floating blue darken-2" tooltip-side="bottom"
+						tooltip-template="Visualizar guia de saída"
+						data-ui-sref="menu.imprimirguiasaida({id_saida: item.id_saida})"><i
+							class="material-icons">description</i></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<at-pagination class="right-align" at-list="lista.guides" at-config="lista.config"></at-pagination>
+</div>
+<div id="excluir_guia" class="modal">
+	<div class="modal-content center-align">
+		<h4>ALERTA!</h4>
+		<p class="flow-text">Deseja excluir a guia de número {{lista.num_saida}} ?</p>
+	</div>
+	<div class="modal-footer">
+		<button data-ng-click="lista.excluir(lista.id_saida)"
+			class="modal-action modal-close waves-effect waves-green btn-flat">Sim</button>
+		<button class="modal-action modal-close waves-effect waves-red btn-flat">Não</button>
+	</div>
+</div>
+<div id="excluir_guia_aviso" class="modal">
+	<div class="modal-content center-align">
+		<h4>ALERTA!</h4>
+		<p class="flow-text">Para realizar essa operação é necessário que você exclua todos os itens na guia de número
+			{{lista.num_saida}}. Deseja excluir os itens agora?</p>
+	</div>
+	<div class="modal-footer">
+		<button data-ui-sref="menu.editarguiasaida({id_saida: lista.id_saida})"
+			class="modal-action modal-close waves-effect waves-green btn-flat">Sim</button>
+		<button class="modal-action modal-close waves-effect waves-red btn-flat">Não</button>
+	</div>
+</div>

@@ -1,0 +1,109 @@
+<div class="container">
+	<h5 class="center-align noprint"><strong>Relatório Entrada por Fornecedor</strong></h5>
+	<div class="row center-align">
+		<p class="noprint">O seguinte relatório mostra a quantidade de produtos comprados ao fornecedor escolhido e pelo
+			recurso escolhido durante o período solicitado</p>
+	</div>
+	<form class="col s12 m12 l12 noprint" name="formRelatorio" data-ng-submit="relatorio.gerar()">
+		<div class="row">
+			<div class="input-field col s12 m6 l6">
+				<select
+					data-ng-options="fornecedor.id_fornecedor as fornecedor.nome_fornecedor for fornecedor in relatorio.fornecedores | orderBy:'nome_fornecedor'"
+					data-ng-model="relatorio.dados.id_fornecedor" data-ng-change="relatorio.clean()" required>
+					<option value="" disabled selected>ESCOLHA O FORNECEDOR</option>
+				</select>
+				<label>Fornecedores</label>
+			</div>
+			<div class="input-field col s12 m6 l6">
+				<select
+					data-ng-options="recurso.id_recurso as recurso.nome_recurso for recurso in relatorio.recursos | orderBy:'nome_recurso'"
+					data-ng-model="relatorio.dados.id_recurso" data-ng-change="relatorio.clean()" required>
+					<option value="" disabled selected>ESCOLHA O RECURSO</option>
+				</select>
+				<label>Recurso</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s6 m2 l2 offset-m4 offset-l4">
+				<input class="datepicker" data-ng-model="relatorio.dados.inicio_periodo"
+					data-ng-pattern="/^(0[1-9]|1[0-9]|2[0-9]|3[01])[/](0[1-9]|1[012])[/]\d{4}$/" data-ng-minlength="10"
+					data-ng-class="{'invalid': formRelatorio.inicio_periodo.$error.minlength || formRelatorio.inicio_periodo.$error.pattern}"
+					id="inicio_periodo" name="inicio_periodo" type="text" maxlength="10" required data-uidate>
+				<label for="inicio_periodo">Data Inicial</label>
+			</div>
+			<div class="input-field col s6 m2 l2">
+				<input class="datepicker" data-ng-model="relatorio.dados.fim_periodo"
+					data-ng-pattern="/^(0[1-9]|1[0-9]|2[0-9]|3[01])[/](0[1-9]|1[012])[/]\d{4}$/" data-ng-minlength="10"
+					data-ng-class="{'invalid': formRelatorio.fim_periodo.$error.minlength || formRelatorio.fim_periodo.$error.pattern}"
+					id="fim_periodo" name="fim_periodo" type="text" maxlength="10" required data-uidate>
+				<label for="fim_periodo">Data Final</label>
+			</div>
+			<div class="row">
+				<button class="waves-effect waves-light btn btn-relatorio"
+					data-ng-disabled="formRelatorio.$invalid">Gerar</button>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="container big">
+	<div data-ng-if="relatorio.fornecedor">
+		<table class="col s12">
+			<tr>
+				<td class="center-align"><img class="pref" src="dist/img/pmg.png" alt="Prefeitura de Gravatá"></td>
+			</tr>
+		</table>
+		<div class="col s12 center-align">
+			<h5>RELATÓRIO</h5>
+		</div>
+		<div class="col s12 center-align">
+			<h5>IDENTIFICAÇÃO DO FORNECEDOR</h5>
+			<table class="bordered col s10 offset-s1">
+				<tr>
+					<td><strong>NOME:</strong>&nbsp;{{relatorio.fornecedor.nome_fornecedor}}</td>
+					<td><strong>CNPJ:</strong>&nbsp;{{relatorio.fornecedor.cnpj_fornecedor | cnpj}}</td>
+				</tr>
+				<tr>
+					<td><strong>ENDEREÇO:</strong>&nbsp;{{relatorio.fornecedor.logradouro_fornecedor}},&nbsp;{{relatorio.fornecedor.numero_fornecedor}}</span>
+					</td>
+					<td><strong>CEP:</strong>&nbsp;{{relatorio.fornecedor.cep_fornecedor | cep}}</td>
+				</tr>
+				<tr>
+					<td><strong>BAIRRO:</strong>&nbsp;{{relatorio.fornecedor.bairro_fornecedor}}</td>
+					<td><strong>CIDADE/UF:</strong>&nbsp;{{relatorio.fornecedor.cidade_fornecedor}} -
+						{{relatorio.fornecedor.estado_fornecedor}}</td>
+				</tr>
+				<tr data-ng-if="relatorio.fornecedor.complemento_fornecedor">
+					<td><strong>COMPLEMENTO:</strong>&nbsp;{{relatorio.fornecedor.complemento_fornecedor}}</td>
+				</tr>
+			</table>
+		</div>
+		<div data-ng-if="relatorio.produtosguiasentradas.length" class="col s12 center-align">
+			<h5>GUIAS DE ENTRADAS COM OS PRODUTOS SOLICITADOS</h5>
+			<table class="bordered centered col s12">
+				<thead>
+					<tr>
+						<th class="center-align">N˚ Guia</th>
+						<th class="center-align">Data Emissão Nota</th>
+						<th class="center-align">Número da Nota</th>
+						<th class="center-align">Produto</th>
+						<th class="center-align">Quantidade Comprada</th>
+						<th class="center-align">Und</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-repeat="item in relatorio.produtosguiasentradas | orderBy:'descricao_produto'">
+						<td>{{item.num_entrada}}</td>
+						<td>{{item.data_emissao_nota_entrada | date:'dd/MM/yyyy'}}</td>
+						<td>{{item.num_nota_entrada}}</td>
+						<td>{{item.descricao_produto}}</td>
+						<td>{{item.quantidade_comprada_itensentrada}}</td>
+						<td>{{item.unidade_produto}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div data-ng-if="!relatorio.produtosguiasentradas.length" class="col s12 center-align">
+			<h5>NÃO HOUVE ENTRADAS PARA O FORNECEDOR, RECURSO E PERÍODO ESCOLHIDO</h5>
+		</div>
+	</div>
+</div>

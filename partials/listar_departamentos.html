@@ -1,0 +1,46 @@
+<div class="container big">
+	<h5 class="center-align"><strong>Lista de Departamentos</strong></h5>
+	<div class="row">
+		<div class="input-field col s6 m4 l4 offset-s6 offset-m8 offset-l8">
+			<i class="material-icons prefix">search</i>
+			<input class="tooltipped" id="query" name="query" type="text" maxlength="20" data-ng-model="lista.query"
+				data-ng-change="lista.search()" data-uppercase data-position="bottom"
+				data-tooltip="Digite o departamento">
+			<label for="query">Buscar Departamento</label>
+		</div>
+	</div>
+	<table class="table highlight responsive-table centered" at-table at-paginated at-list="lista.departamentos"
+		at-config="lista.config">
+		<thead></thead>
+		<tbody>
+			<tr>
+				<td at-title="Departamento" at-implicit at-attribute="nome_departamento" at-sortable width="30%"></td>
+				<td at-title="Endereço" at-implicit at-attribute="logradouro_departamento" width="25%"></td>
+				<td at-title="Telefone" at-implicit at-attribute="tel_responsavel_departamento | Telefone" width="15%">
+				</td>
+				<td at-title="Bairro" at-implicit at-attribute="bairro_departamento" width="15%"></td>
+				<td at-title="Ação" width="15%">
+					<button tooltips class="btn-floating red" tooltip-side="bottom"
+						tooltip-template="Excluir departamento" data-ng-click="lista.modal(item)"><i
+							class="material-icons">delete</i></button>
+					<button tooltips class="btn-floating hide-on-med-and-down" tooltip-side="bottom"
+						tooltip-template="Editar departamento"
+						data-ui-sref="menu.editardepartamento({id_departamento: item.id_departamento})"><i
+							class="material-icons">mode_edit</i></button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<at-pagination class="right-align" at-list="lista.departamentos" at-config="lista.config"></at-pagination>
+</div>
+<div id="excluir_departamento" class="modal">
+	<div class="modal-content center-align">
+		<h4>ALERTA!</h4>
+		<p class="flow-text">Deseja excluir o departamento {{lista.modal_data.nome_departamento}} ?</p>
+	</div>
+	<div class="modal-footer">
+		<button data-ng-click="lista.excluir(lista.modal_data.id_departamento)"
+			class="modal-action modal-close waves-effect waves-green btn-flat">Sim</button>
+		<button class="modal-action modal-close waves-effect waves-red btn-flat">Não</button>
+	</div>
+</div>

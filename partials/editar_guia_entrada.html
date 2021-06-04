@@ -1,0 +1,106 @@
+<div class="container">
+	<h5 class="center-align"><strong>Guia de Entrada N˚ {{editar.dados.num_entrada}}</strong></h5>
+	<div class="row center-align">
+		<h5><strong>Dados da Nota</strong></h5>
+		<table class="bordered col s10 offset-s1">
+			<tr>
+				<td><strong>NOME:</strong>&nbsp;{{editar.dados.nome_fornecedor}}</td>
+				<td><strong>CNPJ:</strong>&nbsp;{{editar.dados.cnpj_fornecedor | cnpj}}</td>
+			</tr>
+			<tr>
+				<td><strong>Nº DA NOTA:</strong>&nbsp;{{editar.dados.num_nota_entrada}}</td>
+				<td class="cabecalho"><strong>DATA DE EMISSÃO DA NOTA:</strong>&nbsp;{{editar.dados.data_emissao_nota_entrada |
+					date:'dd/MM/yyyy'}}</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<form name="formProdutos" data-ng-submit="editar.inserir()">
+		<div class="row">
+			<div class="input-field col s12 m5 l5">
+				<i class="material-icons prefix">shopping_cart</i>
+				<select
+					data-ng-options="produto.id_produto as produto.descricao_produto disable when produto.disabled === true for produto in editar.produtos | orderBy:'descricao_produto'"
+					data-ng-model="editar.itens.id_produto_itensentrada" required
+					data-ng-change="editar.getPrice(editar.itens.id_produto_itensentrada)">
+					<option value="" disabled selected>ESCOLHA O PRODUTO</option>
+				</select>
+				<label>Produto</label>
+			</div>
+			<div class="input-field col s12 m2 l2">
+				<input id="valor_produto_itensentrada" name="valor_produto_itensentrada" type="text" maxlength="10"
+					data-ng-minlength="3" data-ng-pattern="/^((?=\S)\d{1,3}(?:\.\d{3})*,\d{2})$/"
+					data-ng-class="{'invalid': formProdutos.valor_produto_itensentrada.$error.minlength || formProdutos.valor_produto_itensentrada.$error.pattern}"
+					data-ng-model="editar.itens.valor_produto_itensentrada" disabled data-uimoney>
+				<label for="valor_produto_itensentrada">Valor Unitário</label>
+			</div>
+			<div class="input-field col s3 m2 l2">
+				<input id="validade_produto_itensentrada" name="validade_produto_itensentrada" type="text" maxlength="7"
+					data-ng-pattern="/^(0[1-9]|1[012])[/]\d{4}$/" data-ng-minlength="7"
+					data-ng-class="{'invalid': formProdutos.validade_produto_itensentrada.$error.minlength || formProdutos.validade_produto_itensentrada.$error.pattern}"
+					data-ng-model="editar.itens.validade_produto_itensentrada" data-uivencimento>
+				<label for="validade_produto_itensentrada">Validade</label>
+			</div>
+			<div class="input-field col s12 m2 l2">
+				<input class="right-align" id="quantidade_comprada_itensentrada" name="quantidade_comprada_itensentrada"
+					type="text" required data-ng-model="editar.itens.quantidade_comprada_itensentrada"
+					data-ng-pattern="/^((?=\S)(\d{1,8}))$/" data-ng-minlength="1"
+					data-ng-class="{'invalid': formProdutos.quantidade_comprada_itensentrada.$error.minlength || formProdutos.quantidade_comprada_itensentrada.$error.pattern}"
+					data-uinum maxlength="8">
+				<label for="quantidade_comprada_itensentrada">Qtd Comprada</label>
+			</div>
+			<button class="btn-floating btn-floating-guia" data-ng-disabled="formProdutos.$invalid"><i
+					class="material-icons">add</i></button>
+		</div>
+	</form>
+</div>
+<div class="container big">
+	<div class="col s12 center-align" data-ng-if="editar.produtosNota.length >= 1">
+		<button class="waves-effect waves-light btn btn-visualizar"
+			data-ui-sref="menu.imprimirguiaentrada({id_entrada: editar.dados.id_entrada})"><i
+				class="material-icons left">description</i>Visualizar</button>
+	</div>
+	<br>
+	<div data-ng-if="editar.produtosNota.length >= 1">
+		<div class="col s12 center-align">
+			<h5><strong>Produtos Adquiridos</strong></h5>
+			<table class="bordered centered">
+				<thead>
+					<tr>
+						<th class="produto center-align">Produto</th>
+						<th class="center-align">Und</th>
+						<th class="center-align">Valor Unitário</th>
+						<th class="center-align">Validade</th>
+						<th class="center-align">Qtd Cmp</th>
+						<th class="center-align">Valor Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-repeat="item in editar.produtosNota | orderBy:'descricao_produto'">
+						<td class="produto">{{item.descricao_produto}}</td>
+						<td>{{item.unidade_produto}}</td>
+						<td>{{item.valor_produto_itensentrada | currency:'R$ ':2}}</td>
+						<td>{{item.validade_produto_itensentrada | date:'MM/yyyy'}}</td>
+						<td>{{item.quantidade_comprada_itensentrada}}</td>
+						<td>{{item.quantidade_comprada_itensentrada * item.valor_produto_itensentrada | currency:'R$
+							':2}}</td>
+						<td>
+							<button class="btn-floating red"
+								data-ng-click="editar.excluir(item.id_itensentrada, item.id_produto)"><i
+									class="material-icons">delete</i></button>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th class="right-align" colspan="5">Valor Total da Nota</th>
+						<th class="center-align">{{editar.produtosNota |
+							SomaTotal:'valor_produto_itensentrada':'quantidade_comprada_itensentrada' | currency:'R$
+							':2}}</th>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>

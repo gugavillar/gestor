@@ -1,0 +1,100 @@
+<div class="container">
+	<div class="row right-align">
+		<a data-ng-disabled="!imprimir.filenota" class="waves-effect waves-light btn noprint btn-nota" data-ng-href="{{imprimir.filenota}}" target="_blank"><i
+				class="material-icons right">attach_file</i>Nota</a>
+		<button class="waves-effect waves-light btn noprint btn-imprimir" data-ng-click="imprimir.print()"><i
+				class="material-icons right">print</i>Imprimir</button>
+	</div>
+	<div class="row center-align">
+		<img class="pref" src="dist/img/pmg.png" alt="Prefeitura de Gravatá">
+	</div>
+	<div class="col s12 center-align">
+		<h5><strong>Guia de Entrada de Produtos</strong></h5>
+		<table class="bordered centered col s12">
+			<tr>
+				<td><strong>DATA ENTRADA:</strong>&nbsp;{{imprimir.guia.data_entrada | date:'dd/MM/yyyy'}}</td>
+				<td><strong>Nº DA NOTA:</strong>&nbsp;{{imprimir.guia.num_nota_entrada}}</td>
+				<td><strong>Nº:</strong>&nbsp;{{imprimir.guia.num_entrada}}</td>
+			</tr>
+			<tr>
+				<td><strong>DATA DE EMISSÃO DA NOTA:</strong>&nbsp;{{imprimir.guia.data_emissao_nota_entrada | date:'dd/MM/yyyy'}}
+				</td>
+				<td colspan="2"><strong>USUÁRIO:</strong>&nbsp;{{imprimir.guia.name}}</td>
+			</tr>
+		</table>
+	</div>
+	<div class="col s12 center-align">
+		<h5><strong>Dados do Fornecedor</strong></h5>
+		<table class="bordered col s12">
+			<tr>
+				<td><strong>NOME:</strong>&nbsp;{{imprimir.guia.nome_fornecedor}}</td>
+				<td><strong>CNPJ:</strong>&nbsp;{{imprimir.guia.cnpj_fornecedor | cnpj}}</td>
+			</tr>
+			<tr>
+				<td><strong>ENDEREÇO:</strong>&nbsp;{{imprimir.guia.logradouro_fornecedor}},&nbsp;{{imprimir.guia.numero_fornecedor}}
+				</td>
+				<td><strong>CEP:</strong>&nbsp;{{imprimir.guia.cep_fornecedor | cep}}</td>
+			</tr>
+			<tr>
+				<td><strong>BAIRRO:</strong>&nbsp;{{imprimir.guia.bairro_fornecedor}}</td>
+				<td><strong>CIDADE/UF:</strong>&nbsp;{{imprimir.guia.cidade_fornecedor}} - {{imprimir.guia.estado_fornecedor}}
+				</td>
+			</tr>
+			<tr data-ng-if="imprimir.guia.complemento_fornecedor">
+				<td><strong>COMPLEMENTO:</strong>&nbsp;{{imprimir.guia.complemento_fornecedor}}</td>
+			</tr>
+			<tr>
+				<td><strong>CONTATO:</strong>&nbsp;{{imprimir.guia.contato_fornecedor}}</td>
+				<td><strong>EMAIL:</strong>&nbsp;{{imprimir.guia.email_fornecedor}}</td>
+			</tr>
+		</table>
+	</div>
+	<div class="col s12 center-align">
+		<h5><strong>Dados dos Produtos Adquiridos</strong></h5>
+	</div>
+</div>
+<div class="container big">
+	<div class="col s12 center-align">
+		<table class="bordered centered">
+			<thead>
+				<tr>
+					<th class="center-align produto">Produto</th>
+					<th class="center-align">Validade</th>
+					<th class="center-align">Qtd Cmp</th>
+					<th class="center-align">Und</th>
+					<th class="center-align">Valor Unitário</th>
+					<th class="center-align">Valor Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="item in imprimir.produtos | orderBy:'descricao_produto'">
+					<td class="produto">{{item.descricao_produto}}</td>
+					<td>{{item.validade_produto_itensentrada | date:'MM/yyyy'}}</td>
+					<td>{{item.quantidade_comprada_itensentrada}}</td>
+					<td>{{item.unidade_produto}}</td>
+					<td>{{item.valor_produto_itensentrada | currency:'R$ ':2}}</td>
+					<td>{{item.valor_produto_itensentrada * item.quantidade_comprada_itensentrada | currency:'R$ ':2}}
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th class="right-align" colspan="5">Valor Total da Nota</th>
+					<th class="center-align">{{imprimir.produtos |
+						SomaTotal:'valor_produto_itensentrada':'quantidade_comprada_itensentrada' | currency:'R$ ':2}}
+					</th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	<div class="footer col s10 onlyprint">
+		<div class="col s6">
+			<hr>
+			<p class="center-align">Responsável pelo Setor</p>
+		</div>
+		<div class="col s6">
+			<hr>
+			<p class="center-align">Responsável pelo Recebimento</p>
+		</div>
+	</div>
+</div>

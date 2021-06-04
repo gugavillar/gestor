@@ -1,0 +1,112 @@
+<div class="container">
+	<div class="row center-align">
+		<h5><strong>Dados do Ordem</strong></h5>
+		<div class="col s12 center-align">
+			<h5><strong>ORDEM DE N˚ {{editar.ordem.num_ordemfornecimento}}&nbsp;-&nbsp;{{editar.ordem.data_ordemfornecimento
+					| date:'dd/MM/yyyy'}}</strong></h5>
+			<table class="bordered centered col s12">
+				<tr>
+					<td colspan="3"><strong>FORNECEDOR:</strong>&nbsp;{{editar.ordem.nome_fornecedor}}</td>
+				</tr>
+				<tr>
+					<td><strong>CONTRATO:</strong>&nbsp;{{editar.ordem.sigla_contrato}}&nbsp;-&nbsp;{{editar.ordem.num_contrato}}
+					</td>
+					<td><strong>PERÍODO:</strong>&nbsp;{{editar.ordem.periodo_ordemfornecimento}}</td>
+					<td><strong>PRIORIDADE:</strong>&nbsp;{{editar.ordem.prioridade_ordemfornecimento | Prioridade}}</td>
+				</tr>
+				<tr>
+					<td colspan="3"><strong>OBJETO:</strong>&nbsp;{{editar.ordem.objeto_contrato}}</td>
+				</tr>
+				<tr>
+					<td colspan="3"><strong>DEPARTAMENTO:</strong>&nbsp;{{editar.ordem.nome_departamento}}</td>
+				</tr>
+				<tr>
+					<td colspan="3"><strong>LOCAL DE ENTREGA:</strong>&nbsp;{{editar.ordem.local_ordemfornecimento}}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<form name="formProdutos" data-ng-submit="editar.inserir()">
+		<div class="row">
+			<div class="input-field col s12 m5 l7">
+				<i class="material-icons prefix">shopping_cart</i>
+				<select data-ng-change="editar.getSaldo(editar.itens.id_produto_itensordemfornecimento)"
+					data-ng-options="produto.id_produto as produto.descricao_produto disable when produto.disabled === true for produto in editar.produtos | orderBy:'descricao_produto'"
+					data-ng-model="editar.itens.id_produto_itensordemfornecimento" required>
+					<option value="" disabled selected>ESCOLHA O PRODUTO</option>
+				</select>
+				<label>Produto</label>
+			</div>
+			<div class="input-field col s12 m2 l2">
+				<input class="right-align" id="saldo_produto_itensordemfornecimento"
+					name="saldo_produto_itensordemfornecimento" type="text" required
+					data-ng-model="editar.itens.saldo_produto_itensordemfornecimento"
+					data-ng-pattern="/^((?=\S)(\d{1,10}))$/" data-ng-minlength="1"
+					data-ng-class="{'invalid': formProdutos.saldo_produto_itensordemfornecimento.$error.minlength || formProdutos.saldo_produto_itensordemfornecimento.$error.pattern}"
+					data-uinum maxlength="10" disabled>
+				<label for="saldo_produto_itensordemfornecimento">Saldo</label>
+			</div>
+			<div class="input-field col s12 m2 l2">
+				<input data-ng-change="editar.check()" class="right-align"
+					id="quantidade_produto_itensordemfornecimento" name="quantidade_produto_itensordemfornecimento"
+					type="text" required data-ng-model="editar.itens.quantidade_produto_itensordemfornecimento"
+					data-ng-pattern="/^((?=\S)(\d{1,10}))$/" data-ng-minlength="1"
+					data-ng-class="{'invalid': formProdutos.quantidade_produto_itensordemfornecimento.$error.minlength || formProdutos.quantidade_produto_itensordemfornecimento.$error.pattern}"
+					data-uinum maxlength="10">
+				<label for="quantidade_produto_itensordemfornecimento">Quantidade</label>
+			</div>
+			<button class="btn-floating btn-floating-guia" data-ng-disabled="formProdutos.$invalid"><i
+					class="material-icons">add</i></button>
+		</div>
+	</form>
+</div>
+<div class="container big">
+	<div class="col s12 center-align" data-ng-if="editar.produtosOrdem.length >= 1">
+		<button class="waves-effect waves-light btn btn-visualizar"
+			data-ui-sref="menu.imprimirordem({id_ordemfornecimento: editar.ordem.id_ordemfornecimento})"><i
+				class="material-icons left">description</i>Visualizar</button>
+	</div>
+	<div data-ng-if="editar.produtosOrdem.length >= 1">
+		<div class="col s12 center-align">
+			<h5>Produtos Solicitados</h5>
+			<table class="bordered centered">
+				<thead>
+					<tr>
+						<th class="center-align">Produto</th>
+						<th class="center-align">Und</th>
+						<th class="center-align">Fabricante/Marca</th>
+						<th class="center-align">Quantidade</th>
+						<th class="center-align">Valor Unitário</th>
+						<th class="center-align">Valor Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-repeat="item in editar.produtosOrdem | orderBy:'descricao_produto'">
+						<td>{{item.descricao_produto}}</td>
+						<td>{{item.unidade_produto}}</td>
+						<td>{{item.fabricante_produto}}</td>
+						<td>{{item.quantidade_produto_itensordemfornecimento}}</td>
+						<td>{{item.valor_produto_itensordemfornecimento | currency:'R$ ':2}}</td>
+						<td>{{item.valor_produto_itensordemfornecimento * item.quantidade_produto_itensordemfornecimento
+							| currency:'R$ ':2}}</td>
+						<td>
+							<button class="btn-floating red"
+								data-ng-click="editar.excluir(item.id_itensordemfornecimento, item.id_produto)"><i
+									class="material-icons">delete</i></button>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th class="right-align" colspan="5">Valor Total da Ordem</th>
+						<th class="center-align">{{editar.produtosOrdem |
+							SomaTotal:'quantidade_produto_itensordemfornecimento':'valor_produto_itensordemfornecimento'
+							| currency:'R$ ':2}}</th>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,94 @@
+<h5 class="center-align"><strong>Dashboard</strong></h5>
+<div class="center-align hide">
+	<img class="responsive-img dash-img" src="dist/img/pmg.png" alt="Prefeitura de Gravatá">
+</div>
+<div class="row">
+	<div class="col s12 m6 l6">
+		<div class="card">
+			<div class="card-content">
+				<span class="card-title grey-text text-darken-4 center-align">Total de Contratos por Tipo</span>
+				<table class="responsive-table highlight centered">
+					<thead>
+						<tr>
+							<th>Tipo Contrato</th>
+							<th>Quantidade</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-ng-repeat="item in dashboard.contratostipos">
+							<td data-ng-bind="item.tipo_contrato | tipoContrato"></td>
+							<td data-ng-bind="item.quantidade_contrato"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="card">
+			<div class="card-content">
+				<span class="card-title grey-text text-darken-4 center-align">Produtos com Saldo Inferior ao Estoque
+					Mínimo</span>
+				<table class="highlight centered">
+					<thead>
+						<tr>
+							<th>Produto</th>
+							<th>Saldo</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-ng-repeat="item in dashboard.saldoprodutosestoque">
+							<td data-ng-bind="item.descricao_produto"></td>
+							<td data-ng-bind="item.quantidade_comprada - item.quantidade_saida"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col s12 m6 l6">
+		<div class="card">
+			<div class="card-content">
+				<span class="card-title grey-text text-darken-4 center-align">Contratos com Menos de 90 Dias para
+					Encerrar</span>
+				<table class="highlight centered dashboard-table">
+					<thead>
+						<tr>
+							<th>Tipo Contrato</th>
+							<th>Contrato</th>
+							<th>Dias</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-ng-repeat="item in dashboard.contratosdiastermino"
+							data-ui-sref="menu.imprimircontrato({id_contrato: item.id_contrato})">
+							<td data-ng-bind="item.tipo_contrato | tipoContrato"></td>
+							<td data-ng-bind="item.sigla_contrato + ' - ' + item.num_contrato"></td>
+							<td data-ng-bind="item.dias_termino"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="card">
+			<div class="card-content">
+				<span class="card-title grey-text text-darken-4 center-align">Itens do Contrato com Saldo Inferior ao
+					Estoque Mínimo</span>
+				<table class="highlight centered">
+					<thead>
+						<tr>
+							<th>Produto</th>
+							<th>Saldo</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-ng-repeat="item in dashboard.saldoprodutoscontrato">
+							<td data-ng-bind="item.descricao_produto"></td>
+							<td
+								data-ng-bind="item.saldo_produto_itenscontrato - item.saldo_produto_emuso_itenscontrato">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

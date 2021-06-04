@@ -1,0 +1,15 @@
+.produto {
+	width: 40%;
+}
+
+.pref {
+	width: 160px;
+}
+
+.onlyprint {
+	display: none;
+}
+
+ul.dropdown-content>li>span {
+	color: black;
+}

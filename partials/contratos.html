@@ -1,0 +1,173 @@
+<div class="container">
+	<h5 class="center-align"><strong>Cadastrar Contrato</strong></h5>
+	<form class="col s12 m12 l12" name="formContrato" data-ng-submit="contrato.cadastrar()"
+		data-ng-show="contrato.formulario">
+		<div class="row">
+			<div class="input-field col s12 m6 l6">
+				<select required data-ng-model="contrato.novo.tipo_contrato">
+					<option value="" disabled selected>TIPO DO CONTRATO</option>
+					<option value="1">CONTRATO DE SERVIÇO</option>
+					<option value="2">CONTRATO DE FORNECIMENTO</option>
+					<option value="3">CONTRATO DE GESTÃO</option>
+					<option value="4">CONTRATO DE CONCESSÃO</option>
+				</select>
+				<label>Tipo do Contrato</label>
+			</div>
+			<div class="input-field col s12 m6 l6">
+				<select required
+					data-ng-options="item.id_fornecedor as item.nome_fornecedor for item in contrato.fornecedores"
+					data-ng-model="contrato.novo.id_fornecedor_contrato">
+					<option value="" disabled selected>ESCOLHA O FORNECEDOR</option>
+				</select>
+				<label>Fornecedor</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12 m4 l5 offset-l2">
+				<input id="sigla_contrato" name="sigla_contrato" data-ng-model="contrato.novo.sigla_contrato"
+					data-ng-pattern="/^((?=\w\S)([\S\d\s]{3,30}))$/" data-ng-minlength="3"
+					data-ng-class="{'invalid': formContrato.sigla_contrato.$error.minlength || formContrato.sigla_contrato.$error.pattern}"
+					type="text" maxlength="30" data-uppercase>
+				<label for="sigla_contrato">Sigla</label>
+			</div>
+			<div class="input-field col s12 m4 l3">
+				<input id="num_contrato" name="num_contrato" data-ng-model="contrato.novo.num_contrato"
+					data-ng-pattern="/^([0-9]{3}\/[0-9]{4}[A-Z]?)$/" data-ng-minlength="8"
+					data-ng-class="{'invalid': formContrato.num_contrato.$error.minlength || formContrato.num_contrato.$error.pattern}"
+					data-uioficio type="text" maxlength="9">
+				<label for="num_contrato">N˚ Contrato</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12 m4 l4 offset-l2">
+				<i class="material-icons prefix">calendar_today</i>
+				<input id="inicio_contrato" class="datepicker" maxlength="10" data-ng-minlength="10"
+					name="inicio_contrato" type="text" data-ng-model="contrato.novo.inicio_contrato" required
+					data-uidate data-ng-pattern="/^(0[1-9]|1[0-9]|2[0-9]|3[01])[/](0[1-9]|1[012])[/]\d{4}$/"
+					data-ng-class="{'invalid': formContrato.inicio_contrato.$error.minlength || formContrato.inicio_contrato.$error.pattern}">
+				<label for="inicio_contrato">Início de Vigência</label>
+			</div>
+			<div class="input-field col s12 m4 l4">
+				<i class="material-icons prefix">calendar_today</i>
+				<input id="fim_contrato" class="datepicker" maxlength="10" data-ng-minlength="10" name="fim_contrato"
+					type="text" data-ng-model="contrato.novo.fim_contrato" required data-uidate
+					data-ng-pattern="/^(0[1-9]|1[0-9]|2[0-9]|3[01])[/](0[1-9]|1[012])[/]\d{4}$/"
+					data-ng-class="{'invalid': formContrato.fim_contrato.$error.minlength || formContrato.fim_contrato.$error.pattern}">
+				<label for="fim_contrato">Fim de Vigência</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12 m12 l12">
+				<i class="material-icons prefix">mode_edit</i>
+				<textarea id="objeto_contrato" name="objeto_contrato" data-ng-minlength="15"
+					class="materialize-textarea" data-ng-model="contrato.novo.objeto_contrato"
+					data-ng-class="{'invalid': formContrato.objeto_contrato.$error.minlength}" msd-elastic required
+					data-uppercase></textarea>
+				<label for="objeto_contrato">Objeto</label>
+			</div>
+			<div class="col s12 m8 l8 offset-m2 offset-l2">
+				<div class="file-field input-field">
+					<div class="btn">
+						<span>Contrato</span>
+						<input type="file" data-ngf-select data-ng-model="contrato.file" name="file"
+							data-ngf-accept="'application/pdf'" data-ngf-pattern="'application/pdf'"
+							data-ngf-max-size="5MB">
+					</div>
+					<div class="file-path-wrapper">
+						<input class="file-path validate" type="text">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row right-align">
+			<button class="waves-effect waves-light btn" data-ng-disabled="formContrato.$invalid">Cadastrar</button>
+		</div>
+	</form>
+	<div class="row" data-ng-show="!contrato.formulario">
+		<table class="bordered centered col s12 tableContratos">
+			<tr>
+				<td><strong>SIGLA:</strong>&nbsp;{{contrato.resposta.sigla_contrato}}</td>
+				<td><strong>Nº DO CONTRATO:</strong>&nbsp;{{contrato.resposta.num_contrato}}</td>
+			</tr>
+			<tr>
+				<td class="center-align" colspan="4"><strong>VIGÊNCIA DO
+						CONTRATO:</strong>&nbsp;{{contrato.resposta.inicio_contrato |
+					date:'dd/MM/yyyy'}}&nbsp;ATÉ&nbsp;{{contrato.resposta.fim_contrato | date:'dd/MM/yyyy'}}</td>
+			</tr>
+			<tr>
+				<td class="center-align" colspan="4"><strong>OBJETO:</strong>&nbsp;{{contrato.resposta.objeto_contrato}}</td>
+			</tr>
+		</table>
+		<form name="formProdutosContrato" data-ng-submit="contrato.inserir()">
+			<div class="row">
+				<div class="input-field col s12 m7 l7">
+					<i class="material-icons prefix">shopping_cart</i>
+					<select
+						data-ng-options="produto.id_produto as produto.descricao_produto disable when produto.disabled === true for produto in contrato.produtos | orderBy:'descricao_produto'"
+						data-ng-model="contrato.itens.id_produto_itenscontrato" required
+						data-ng-change="contrato.getPrice(contrato.itens.id_produto_itenscontrato)">
+						<option value="" disabled selected>ESCOLHA O PRODUTO</option>
+					</select>
+					<label>Produto</label>
+				</div>
+				<div class="input-field col s12 m2 l2">
+					<input id="valor_produto_itenscontrato" name="valor_produto_itenscontrato" type="text"
+						maxlength="10" data-ng-minlength="3" data-ng-pattern="/^((?=\S)\d{1,3}(?:\.\d{3})*,\d{2})$/"
+						data-ng-class="{'invalid': formProdutosContrato.valor_produto_itenscontrato.$error.minlength || formProdutosContrato.valor_produto_itenscontrato.$error.pattern}"
+						data-ng-model="contrato.itens.valor_produto_itenscontrato" disabled data-uimoney>
+					<label for="valor_produto_itenscontrato">Valor Unitário</label>
+				</div>
+				<div class="input-field col s12 m2 l2">
+					<input class="right-align" id="saldo_produto_itenscontrato" name="saldo_produto_itenscontrato"
+						type="text" required data-ng-model="contrato.itens.saldo_produto_itenscontrato"
+						data-ng-pattern="/^((?=\S)(\d{1,8}))$/" data-ng-minlength="1"
+						data-ng-class="{'invalid': formProdutosContrato.saldo_produto_itenscontrato.$error.minlength || formProdutosContrato.saldo_produto_itenscontrato.$error.pattern}"
+						data-uinum maxlength="8">
+					<label for="saldo_produto_itenscontrato">Saldo Contrato</label>
+				</div>
+				<button class="btn-floating btn-floating-guia" data-ng-disabled="formProdutosContrato.$invalid"><i
+						class="material-icons">add</i></button>
+			</div>
+		</form>
+		<br>
+		<div data-ng-if="contrato.produtosContrato.length >= 1">
+			<div class="col s12 center-align">
+				<h5>Produtos Adquiridos</h5>
+				<table class="bordered centered">
+					<thead>
+						<tr>
+							<th class="produto center-align">Produto</th>
+							<th class="center-align">Und</th>
+							<th class="center-align">Saldo</th>
+							<th class="center-align">Valor Unitário</th>
+							<th class="center-align">Valor Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-ng-repeat="item in contrato.produtosContrato | orderBy:'descricao_produto'">
+							<td class="produto">{{item.descricao_produto}}</td>
+							<td>{{item.unidade_produto}}</td>
+							<td>{{item.saldo_produto_itenscontrato}}</td>
+							<td>{{item.valor_produto_itenscontrato | currency:'R$ ':2}}</td>
+							<td class="valor_unitario">{{item.saldo_produto_itenscontrato *
+								item.valor_produto_itenscontrato | currency:'R$ ': 2}}</td>
+							<td>
+								<button class="btn-floating red"
+									data-ng-click="contrato.excluir(item.id_itenscontrato, item.id_produto)"><i
+										class="material-icons">delete</i></button>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<th class="right-align" colspan="4">Valor Total do Contrato</th>
+							<th class="center-align">{{contrato.produtosContrato |
+								SomaTotal:'valor_produto_itenscontrato':'saldo_produto_itenscontrato' | currency:'R$
+								':2}}</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,62 @@
+<div class="container big">
+	<h5 class="center-align"><strong>Lista de Ordens</strong></h5>
+	<div class="row">
+		<div class="input-field col s6 m4 l4 offset-s6 offset-m8 offset-l8">
+			<i class="material-icons prefix">search</i>
+			<input class="tooltipped" id="query" name="query" type="text" maxlength="10" data-ng-model="lista.query"
+				data-ng-change="lista.search()" data-uinum data-position="bottom" data-tooltip="Digite número da ordem">
+			<label for="query">Buscar Ordem</label>
+		</div>
+	</div>
+	<table class="table highlight responsive-table centered" at-table at-paginated at-list="lista.guides"
+		at-config="lista.config">
+		<thead></thead>
+		<tbody>
+			<tr>
+				<td width="8%" at-title="Nº Ordem" at-implicit at-attribute="num_ordemfornecimento"></td>
+				<td width="25%" at-title="Fornecedor" at-implicit at-attribute="nome_fornecedor"></td>
+				<td width="15%" at-title="Contrato" data-ng-bind="(item.sigla_contrato + ' - ' + item.num_contrato)">
+				</td>
+				<td width="12%" at-title="Data" data-ng-bind="(item.data_ordemfornecimento | date:'dd/MM/yyyy')"></td>
+				<td width="25%" at-title="Departamento" at-implicit at-attribute="nome_departamento"></td>
+				<td at-title="Ação" width="15%">
+					<button tooltips class="btn-floating red" tooltip-side="bottom" tooltip-template="Excluir ordem"
+						data-ng-click="lista.modal(item.id_ordemfornecimento, item.num_ordemfornecimento)"><i
+							class="material-icons">delete</i></button>
+					<button tooltips class="btn-floating hide-on-med-and-down" tooltip-side="bottom"
+						tooltip-template="Editar ordem"
+						data-ui-sref="menu.editarordem({id_ordemfornecimento: item.id_ordemfornecimento})"><i
+							class="material-icons">mode_edit</i></button>
+					<a tooltips class="btn-floating blue darken-2" tooltip-side="bottom"
+						tooltip-template="Visualizar ordem"
+						data-ui-sref="menu.imprimirordem({id_ordemfornecimento: item.id_ordemfornecimento})"><i
+							class="material-icons">description</i></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<at-pagination class="right-align" at-list="lista.guides" at-config="lista.config"></at-pagination>
+</div>
+<div id="excluir_ordem" class="modal">
+	<div class="modal-content center-align">
+		<h4>ALERTA!</h4>
+		<p class="flow-text">Deseja excluir a ordem de número {{lista.num_ordemfornecimento}} ?</p>
+	</div>
+	<div class="modal-footer">
+		<button data-ng-click="lista.excluir(lista.id_ordemfornecimento)"
+			class="modal-action modal-close waves-effect waves-green btn-flat">Sim</button>
+		<button class="modal-action modal-close waves-effect waves-red btn-flat">Não</button>
+	</div>
+</div>
+<div id="excluir_ordem_aviso" class="modal">
+	<div class="modal-content center-align">
+		<h4>ALERTA!</h4>
+		<p class="flow-text">Para realizar essa operação é necessário que você exclua todos os itens na guia de número
+			{{lista.num_ordemfornecimento}}. Deseja excluir os itens agora?</p>
+	</div>
+	<div class="modal-footer">
+		<button data-ui-sref="menu.editarordem({id_ordemfornecimento: lista.id_ordemfornecimento})"
+			class="modal-action modal-close waves-effect waves-green btn-flat">Sim</button>
+		<button class="modal-action modal-close waves-effect waves-red btn-flat">Não</button>
+	</div>
+</div>

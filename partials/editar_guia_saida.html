@@ -1,0 +1,94 @@
+<div class="container">
+	<h5 class="center-align"><strong>Guia de Distribuição N˚ {{editar.dados.num_saida}}</strong></h5>
+	<div class="row center-align">
+		<table class="bordered col s10 offset-s1">
+			<tr>
+				<td colspan="2"><strong>NOME:</strong>&nbsp;{{editar.dados.nome_departamento}}</td>
+			</tr>
+			<tr>
+				<td><strong>ENDEREÇO:</strong>&nbsp;{{editar.dados.logradouro_departamento}},&nbsp;{{editar.dados.numero_departamento}}
+				</td>
+				<td><strong>CEP:</strong>&nbsp;{{editar.dados.cep_departamento | cep}}</td>
+			</tr>
+			<tr>
+				<td><strong>BAIRRO:</strong>&nbsp;{{editar.dados.bairro_departamento}}</td>
+				<td><strong>CIDADE/UF:</strong>&nbsp;{{editar.dados.cidade_departamento}}&nbsp;-&nbsp;{{editar.dados.estado_departamento}}
+				</td>
+			</tr>
+			<tr data-ng-if="editar.dados.complemento_departamento">
+				<td><strong>COMPLEMENTO:</strong>&nbsp;{{editar.dados.complemento_departamento}}</td>
+			</tr>
+			<tr data-ng-if="editar.dados.referencia_departamento">
+				<td><strong>REFERÊNCIA:</strong>&nbsp;{{editar.dados.referencia_departamento}}</td>
+				<td></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<form name="formProdutos" data-ng-submit="editar.inserir()">
+		<div class="row">
+			<div class="input-field col s12 m5 l7">
+				<i class="material-icons prefix">shopping_cart</i>
+				<select data-ng-change="editar.getEstoque(editar.itens.id_produto_itenssaida)"
+					data-ng-options="produto.id_produto as produto.descricao_produto disable when produto.disabled === true for produto in editar.produtos | orderBy:'descricao_produto'"
+					data-ng-model="editar.itens.id_produto_itenssaida" required>
+					<option value="" disabled selected>ESCOLHA O PRODUTO</option>
+				</select>
+				<label>Produto</label>
+			</div>
+			<div class="input-field col s12 m2 l2">
+				<input class="right-align" id="disponivel_estoque" name="disponivel_estoque" type="text" required
+					data-ng-model="editar.itens.disponivel_estoque" data-ng-pattern="/^((?=\S)(\d{1,10}))$/"
+					data-ng-minlength="1"
+					data-ng-class="{'invalid': formProdutos.disponivel_estoque.$error.minlength || formProdutos.disponivel_estoque.$error.pattern}"
+					data-uinum maxlength="10" disabled>
+				<label for="disponivel_estoque">Disponível</label>
+			</div>
+			<div class="input-field col s12 m2 l2">
+				<input data-ng-change="editar.check()" class="right-align" id="quantidade_saida_itenssaida"
+					name="quantidade_saida_itenssaida" type="text" required
+					data-ng-model="editar.itens.quantidade_saida_itenssaida" data-ng-pattern="/^((?=\S)(\d{1,10}))$/"
+					data-ng-minlength="1"
+					data-ng-class="{'invalid': formProdutos.quantidade_saida_itenssaida.$error.minlength || formProdutos.quantidade_saida_itenssaida.$error.pattern}"
+					data-uinum maxlength="10">
+				<label for="quantidade_saida_itenssaida">Quantidade</label>
+			</div>
+			<button class="btn-floating btn-floating-guia" data-ng-disabled="formProdutos.$invalid"><i
+					class="material-icons">add</i></button>
+		</div>
+	</form>
+</div>
+<div class="container big">
+	<div class="col s12 center-align" data-ng-if="editar.produtosGuia.length >= 1">
+		<button class="waves-effect waves-light btn btn-visualizar"
+			data-ui-sref="menu.imprimirguiasaida({id_saida: editar.dados.id_saida})"><i
+				class="material-icons left">description</i>Visualizar</button>
+	</div>
+	<div data-ng-if="editar.produtosGuia.length >= 1">
+		<div class="col s12 center-align">
+			<h5><strong>Produtos Distribuídos</strong></h5>
+			<table class="bordered centered">
+				<thead>
+					<tr>
+						<th class="center-align">Produto</th>
+						<th class="center-align">Quantidade</th>
+						<th class="center-align">Und</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-repeat="item in editar.produtosGuia | orderBy:'descricao_produto'">
+						<td>{{item.descricao_produto}}</td>
+						<td>{{item.quantidade_saida_itenssaida}}</td>
+						<td>{{item.unidade_produto}}</td>
+						<td>
+							<button class="btn-floating red"
+								data-ng-click="editar.excluir(item.id_itenssaida, item.id_produto)"><i
+									class="material-icons">delete</i></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

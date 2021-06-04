@@ -1,0 +1,192 @@
+<div class="container">
+	<h5 class="center-align"><strong>Gerar Ordem de Fornecimento</strong></h5>
+	<div class="row">
+		<form name="formGuia" data-ng-submit="gerar.cadastrar()">
+			<div class="row">
+				<div class="input-field col s12 m12 l12">
+					<i class="material-icons prefix">storefront</i>
+					<select
+						data-ng-options="fornecedor.id_fornecedor as fornecedor.nome_fornecedor for fornecedor in gerar.fornecedores | orderBy:'nome_fornecedor'"
+						data-ng-model="gerar.dados.id_fornecedor_ordemfornecimento" data-ng-disabled="gerar.block"
+						required data-ng-change="gerar.getContratos(gerar.dados.id_fornecedor_ordemfornecimento)">
+						<option value="" disabled selected>ESCOLHA O FORNECEDOR</option>
+					</select>
+					<label>Fornecedor</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12 m12 l12">
+					<i class="material-icons prefix">assignment</i>
+					<select
+						data-ng-options="contrato.id_contrato as (contrato.sigla_contrato + ' - ' + contrato.num_contrato) for contrato in gerar.contratos | orderBy:'num_contrato'"
+						data-ng-model="gerar.dados.id_contrato_ordemfornecimento" data-ng-disabled="gerar.block"
+						required data-ng-change="gerar.setObjetoProdutos(gerar.dados.id_contrato_ordemfornecimento)">
+						<option value="" disabled selected>ESCOLHA O CONTRATO</option>
+					</select>
+					<label>Contrato</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12 m12 l12">
+					<i class="material-icons prefix">mode_edit</i>
+					<textarea id="objeto_contrato" name="objeto_contrato" data-ng-minlength="15"
+						class="materialize-textarea" data-ng-model="gerar.objeto_contrato"
+						data-ng-class="{'invalid': formGuia.objeto_contrato.$error.minlength}" msd-elastic
+						data-uppercase disabled></textarea>
+					<label for="objeto_contrato">Objeto</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12 m12 l12">
+					<i class="material-icons prefix">business</i>
+					<select
+						data-ng-options="departamento.id_departamento as departamento.nome_departamento for departamento in gerar.departamentos | orderBy:'nome_departamento'"
+						data-ng-model="gerar.dados.id_departamento_ordemfornecimento" data-ng-disabled="gerar.block"
+						required>
+						<option value="" disabled selected>ESCOLHA O DEPARTAMENTO</option>
+					</select>
+					<label>Departamento</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12 m12 l12">
+					<i class="material-icons prefix">place</i>
+					<textarea id="local_ordemfornecimento" name="local_ordemfornecimento" data-ng-minlength="10"
+						class="materialize-textarea" data-ng-model="gerar.dados.local_ordemfornecimento"
+						data-ng-class="{'invalid': formGuia.local_ordemfornecimento.$error.minlength}" msd-elastic
+						data-uppercase required></textarea>
+					<label for="local_ordemfornecimento">Local de Entrega</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12 m12 l12">
+					<i class="material-icons prefix">info</i>
+					<textarea id="observacao_ordemfornecimento" name="observacao_ordemfornecimento"
+						data-ng-minlength="10" class="materialize-textarea"
+						data-ng-model="gerar.dados.observacao_ordemfornecimento"
+						data-ng-class="{'invalid': formGuia.observacao_ordemfornecimento.$error.minlength}" msd-elastic
+						data-uppercase required></textarea>
+					<label for="observacao_ordemfornecimento">Observação</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12 m4 l4">
+					<i class="material-icons prefix">calendar_today</i>
+					<input id="data_ordemfornecimento" class="datepicker" maxlength="10" data-ng-minlength="10"
+						name="data_ordemfornecimento" type="text" data-ng-model="gerar.dados.data_ordemfornecimento"
+						required data-uidate
+						data-ng-pattern="/^(0[1-9]|1[0-9]|2[0-9]|3[01])[/](0[1-9]|1[012])[/]\d{4}$/"
+						data-ng-class="{'invalid': formGuia.data_ordemfornecimento.$error.minlength || formGuia.data_ordemfornecimento.$error.pattern}"
+						data-ng-disabled="gerar.block">
+					<label for="data_ordemfornecimento">Data</label>
+				</div>
+				<div class="input-field col s12 m4 l4">
+					<i class="material-icons prefix">event</i>
+					<input id="periodo_ordemfornecimento" name="periodo_ordemfornecimento" type="text" maxlength="30"
+						required data-ng-minlength="5"
+						data-ng-pattern="/^((?=\w\S)([A-Z0-9\.\,\u00C0-\u00FF\(\)\u0027\s]{5,150}))$/"
+						data-ng-model="gerar.dados.periodo_ordemfornecimento"
+						data-ng-class="{'invalid': formGuia.periodo_ordemfornecimento.$error.minlength || formGuia.periodo_ordemfornecimento.$error.pattern}"
+						data-ng-disabled="gerar.block" data-uppercase>
+					<label for="periodo_ordemfornecimento">Período</label>
+				</div>
+				<div class="input-field col s12 m4 l4">
+					<select data-ng-model="gerar.dados.prioridade_ordemfornecimento" data-ng-disabled="gerar.block"
+						required>
+						<option value="" disabled selected>PRIORIDADE</option>
+						<option value="1">NORMAL</option>
+						<option value="2">URGENTE</option>
+						<option value="3">MÁXIMA</option>
+					</select>
+					<label>Prioridade</label>
+				</div>
+			</div>
+			<div class="row right-align">
+				<button class="waves-effect waves-light btn"
+					data-ng-disabled="formGuia.$invalid || gerar.block">Gerar</button>
+			</div>
+		</form>
+		<form name="formProdutos" data-ng-submit="gerar.inserir()">
+			<div class="row">
+				<div class="input-field col s12 m5 l7">
+					<i class="material-icons prefix">shopping_cart</i>
+					<select data-ng-change="gerar.getSaldo(gerar.itens.id_produto_itensordemfornecimento)"
+						data-ng-options="produto.id_produto as produto.descricao_produto disable when produto.disabled === true for produto in gerar.produtos | orderBy:'descricao_produto'"
+						data-ng-model="gerar.itens.id_produto_itensordemfornecimento" data-ng-disabled="!gerar.block"
+						required>
+						<option value="" disabled selected>ESCOLHA O PRODUTO</option>
+					</select>
+					<label>Produto</label>
+				</div>
+				<div class="input-field col s12 m2 l2">
+					<input class="right-align" id="saldo_produto_itensordemfornecimento"
+						name="saldo_produto_itensordemfornecimento" type="text" required
+						data-ng-model="gerar.itens.saldo_produto_itensordemfornecimento"
+						data-ng-pattern="/^((?=\S)(\d{1,10}))$/" data-ng-minlength="1"
+						data-ng-class="{'invalid': formProdutos.saldo_produto_itensordemfornecimento.$error.minlength || formProdutos.saldo_produto_itensordemfornecimento.$error.pattern}"
+						data-uinum maxlength="10" disabled>
+					<label for="saldo_produto_itensordemfornecimento">Saldo</label>
+				</div>
+				<div class="input-field col s12 m2 l2">
+					<input data-ng-change="gerar.check()" class="right-align"
+						id="quantidade_produto_itensordemfornecimento" name="quantidade_produto_itensordemfornecimento"
+						type="text" required data-ng-model="gerar.itens.quantidade_produto_itensordemfornecimento"
+						data-ng-pattern="/^((?=\S)(\d{1,10}))$/" data-ng-minlength="1"
+						data-ng-class="{'invalid': formProdutos.quantidade_produto_itensordemfornecimento.$error.minlength || formProdutos.quantidade_produto_itensordemfornecimento.$error.pattern}"
+						data-uinum maxlength="10" data-ng-disabled="!gerar.block">
+					<label for="quantidade_produto_itensordemfornecimento">Quantidade</label>
+				</div>
+				<button class="btn-floating btn-floating-guia" data-ng-disabled="formProdutos.$invalid"><i
+						class="material-icons">add</i></button>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="container big">
+	<div class="col s12 center-align" data-ng-if="gerar.produtosOrdem.length >= 1">
+		<button class="waves-effect waves-light btn btn-visualizar"
+			data-ui-sref="menu.imprimirordem({id_ordemfornecimento: gerar.id_ordemfornecimento})"><i
+				class="material-icons left">description</i>Visualizar</button>
+	</div>
+	<div data-ng-if="gerar.produtosOrdem.length >= 1">
+		<div class="col s12 center-align">
+			<h5>Produtos Solicitados</h5>
+			<table class="bordered centered">
+				<thead>
+					<tr>
+						<th class="center-align">Produto</th>
+						<th class="center-align">Und</th>
+						<th class="center-align">Fabricante/Marca</th>
+						<th class="center-align">Quantidade</th>
+						<th class="center-align">Valor Unitário</th>
+						<th class="center-align">Valor Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-repeat="item in gerar.produtosOrdem | orderBy:'descricao_produto'">
+						<td>{{item.descricao_produto}}</td>
+						<td>{{item.unidade_produto}}</td>
+						<td>{{item.fabricante_produto}}</td>
+						<td>{{item.quantidade_produto_itensordemfornecimento}}</td>
+						<td>{{item.valor_produto_itensordemfornecimento | currency:'R$ ':2}}</td>
+						<td>{{item.valor_produto_itensordemfornecimento * item.quantidade_produto_itensordemfornecimento
+							| currency:'R$ ':2}}</td>
+						<td>
+							<button class="btn-floating red"
+								data-ng-click="gerar.excluir(item.id_itensordemfornecimento, item.id_produto)"><i
+									class="material-icons">delete</i></button>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th class="right-align" colspan="5">Valor Total da Ordem</th>
+						<th class="center-align">{{gerar.produtosOrdem |
+							SomaTotal:'quantidade_produto_itensordemfornecimento':'valor_produto_itensordemfornecimento'
+							| currency:'R$ ':2}}</th>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>

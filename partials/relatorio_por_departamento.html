@@ -1,0 +1,81 @@
+<div class="container">
+	<h5 class="center-align noprint"><strong>Relatório por Departamento</strong></h5>
+	<div class="row center-align">
+		<p class="noprint">O seguinte relatório mostra a quantidade de produtos entregue na unidade escolhida durante o
+			período solicitado</p>
+	</div>
+	<form class="col s12 m12 l12 noprint" name="formRelatorio" data-ng-submit="relatorio.gerar()">
+		<div class="row">
+			<div class="input-field col s12 m8 l8">
+				<select
+					data-ng-options="departamento.id_departamento as departamento.nome_departamento for departamento in relatorio.departamentos | orderBy:'nome_departamento'"
+					data-ng-model="relatorio.dados.id_departamento" data-ng-change="relatorio.clean()" required>
+					<option value="" disabled selected>ESCOLHA O DEPARTAMENTO</option>
+				</select>
+				<label>Departamento</label>
+			</div>
+			<div class="input-field col s6 m2 l2">
+				<input class="datepicker" data-ng-model="relatorio.dados.inicio_periodo"
+					data-ng-pattern="/^(0[1-9]|1[0-9]|2[0-9]|3[01])[/](0[1-9]|1[012])[/]\d{4}$/" data-ng-minlength="10"
+					data-ng-class="{'invalid': formRelatorio.inicio_periodo.$error.minlength || formRelatorio.inicio_periodo.$error.pattern}"
+					id="inicio_periodo" name="inicio_periodo" type="text" maxlength="10" required data-uidate>
+				<label for="inicio_periodo">Data Inicial</label>
+			</div>
+			<div class="input-field col s6 m2 l2">
+				<input class="datepicker" data-ng-model="relatorio.dados.fim_periodo"
+					data-ng-pattern="/^(0[1-9]|1[0-9]|2[0-9]|3[01])[/](0[1-9]|1[012])[/]\d{4}$/" data-ng-minlength="10"
+					data-ng-class="{'invalid': formRelatorio.fim_periodo.$error.minlength || formRelatorio.fim_periodo.$error.pattern}"
+					id="fim_periodo" name="fim_periodo" type="text" maxlength="10" required data-uidate>
+				<label for="fim_periodo">Data Final</label>
+			</div>
+			<div class="row right-align">
+				<button class="waves-effect waves-light btn btn-relatorio"
+					data-ng-disabled="formRelatorio.$invalid">Gerar</button>
+			</div>
+		</div>
+	</form>
+	<div data-ng-if="relatorio.produtos.length">
+		<table class="col s12">
+			<tr>
+				<td class="center-align"><img class="pref" src="dist/img/pmg.png" alt="Prefeitura de Gravatá"></td>
+			</tr>
+		</table>
+		<div class="col s12 center-align">
+			<h5>RELATÓRIO</h5>
+			<h6><strong>DEPARTAMENTO:</strong> {{relatorio.dados.nome_departamento}}</h6>
+			<h6><strong>PERÍODO:</strong> {{relatorio.dados.inicio_periodo | date:'dd/MM/yyyy'}} &Agrave;
+				{{relatorio.dados.fim_periodo | date:'dd/MM/yyyy'}}</h6>
+		</div>
+		<div class="col s12 center-align">
+			<h5>TOTAL DE PRODUTOS ENTREGUES</h5>
+		</div>
+		<div class="col s12 center-align">
+			<table class="bordered centered">
+				<thead>
+					<tr>
+						<th class="center-align">Produto</th>
+						<th class="center-align">Quantidade Distribuída</th>
+						<th class="center-align">Unidade</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-repeat="item in relatorio.produtos | orderBy:'descricao_produto'">
+						<td>{{item.descricao_produto}}</td>
+						<td>{{item.quantidade_saida}}</td>
+						<td>{{item.unidade_produto}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<div id="resposta" class="modal">
+	<div class="modal-content center-align">
+		<h4>ALERTA!</h4>
+		<p>Não foram encontrados dados para o período e unidade solicitada</p>
+	</div>
+	<div class="modal-footer">
+		<button data-ng-click="relatorio.clean()"
+			class="modal-action modal-close waves-effect waves-green btn-flat">Ok</button>
+	</div>
+</div>

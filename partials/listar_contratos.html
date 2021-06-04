@@ -1,0 +1,63 @@
+<div class="container big">
+	<h5 class="center-align"><strong>Lista de Contratos</strong></h5>
+	<div class="row">
+		<div class="input-field col s6 m4 l4 offset-s6 offset-m8 offset-l8">
+			<i class="material-icons prefix">search</i>
+			<input class="tooltipped" id="query" name="query" type="text" maxlength="8" data-ng-model="lista.query"
+				data-ng-change="lista.search()" data-position="bottom" data-tooltip="Digite número do contrato"
+				data-uioficio>
+			<label for="query">Buscar Contrato</label>
+		</div>
+	</div>
+	<table class="table highlight responsive-table centered" at-table at-paginated at-list="lista.guides"
+		at-config="lista.config">
+		<thead></thead>
+		<tbody>
+			<tr data-ng-class="item.meses_fim | ColorDate">
+				<td width="10%" at-title="Nº Contrato" at-implicit at-attribute="num_contrato"></td>
+				<td width="25%" at-title="Fornecedor" at-implicit at-attribute="nome_fornecedor"></td>
+				<td width="20%" at-title="Tipo" data-ng-bind="(item.tipo_contrato | tipoContrato)" at-sortable></td>
+				<td width="15%" at-title="Sigla" at-implicit at-attribute="sigla_contrato"></td>
+				<td width="15%" at-title="Vigência"
+					data-ng-bind="(item.inicio_contrato | PeriodoContrato:item.fim_contrato)"></td>
+				<td at-title="Ação" width="15%">
+					<button tooltips class="btn-floating red" tooltip-side="bottom" tooltip-template="Excluir contrato"
+						data-ng-click="lista.modal(item.id_contrato, item.num_contrato, item.sigla_contrato)"><i
+							class="material-icons">delete</i></button>
+					<button tooltips class="btn-floating hide-on-med-and-down" tooltip-side="bottom"
+						tooltip-template="Editar contrato"
+						data-ui-sref="menu.editarcontrato({id_contrato: item.id_contrato})"><i
+							class="material-icons">mode_edit</i></button>
+					<a tooltips class="btn-floating blue darken-2" tooltip-side="bottom"
+						tooltip-template="Visualizar contrato"
+						data-ui-sref="menu.imprimircontrato({id_contrato: item.id_contrato})"><i
+							class="material-icons">description</i></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<at-pagination class="right-align" at-list="lista.guides" at-config="lista.config"></at-pagination>
+</div>
+<div id="excluir_contrato_aviso" class="modal">
+	<div class="modal-content center-align">
+		<h4>ALERTA!</h4>
+		<p class="flow-text">Para realizar essa operação é necessário que você exclua todos os itens do contrato
+			{{lista.sigla_contrato}} - {{lista.num_contrato}}. Deseja excluir os itens agora?</p>
+	</div>
+	<div class="modal-footer">
+		<button data-ui-sref="menu.editarcontrato({id_contrato: lista.id_contrato})"
+			class="modal-action modal-close waves-effect waves-green btn-flat">Sim</button>
+		<button class="modal-action modal-close waves-effect waves-red btn-flat">Não</button>
+	</div>
+</div>
+<div id="excluir_contrato" class="modal">
+	<div class="modal-content center-align">
+		<h4>ALERTA!</h4>
+		<p class="flow-text">Deseja excluir o contrato {{lista.sigla_contrato}} - {{lista.num_contrato}}?</p>
+	</div>
+	<div class="modal-footer">
+		<button data-ng-click="lista.excluir(lista.id_contrato)"
+			class="modal-action modal-close waves-effect waves-green btn-flat">Sim</button>
+		<button class="modal-action modal-close waves-effect waves-red btn-flat">Não</button>
+	</div>
+</div>

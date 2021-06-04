@@ -1,0 +1,11 @@
+.pagination li.active {
+	background-color: #4772d7;
+}
+
+.big {
+	width: 85%;
+}
+
+.dashboard-table>tbody>tr {
+	cursor: pointer;
+}

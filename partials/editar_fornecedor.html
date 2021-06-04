@@ -1,0 +1,109 @@
+<div class="container">
+	<h5 class="center-align"><strong>Editar Fornecedor</strong></h5>
+	<form class="col s12 m12 l12" name="formFornecedor" data-ng-submit="fornecedor.editar()">
+		<div class="row">
+			<div class="input-field col s12 m4 l4">
+				<input data-ng-model="fornecedor.novo.cnpj_fornecedor"
+					data-ng-pattern="/(\d{2}[\.]?\d{3}[\.]?\d{3}[\/]?\d{4}[-]\d{2})$/" data-ng-minlength="18"
+					data-ng-class="{'invalid': formFornecedor.cnpj_fornecedor.$error.minlength || formFornecedor.cnpj_fornecedor.$error.pattern}"
+					id="cnpj_fornecedor" name="cnpj_fornecedor" type="text" maxlength="18" required data-uidoc>
+				<label for="cnpj_fornecedor">CNPJ</label>
+			</div>
+			<div class="input-field col s12 m8 l8">
+				<i class="material-icons prefix">storefront</i>
+				<input id="nome_fornecedor" name="nome_fornecedor" type="text" maxlength="200" required
+					data-ng-minlength="5" data-ng-pattern="/^((?=\w)([A-Z0-9\.\,\u00C0-\u00FF\(\)\u0027\s]{1,200}))$/"
+					data-ng-model="fornecedor.novo.nome_fornecedor"
+					data-ng-class="{'invalid': formFornecedor.nome_fornecedor.$error.minlength || formFornecedor.nome_fornecedor.$error.pattern}"
+					data-uppercase>
+				<label for="nome_fornecedor">Nome Fornecedor</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12 m6 l6">
+				<i class="material-icons prefix">person</i>
+				<input id="contato_fornecedor" name="contato_fornecedor" type="text" maxlength="200" required
+					data-ng-minlength="5" data-ng-pattern="/^((?=\w\S)([A-Z0-9\.\,\u00C0-\u00FF\(\)\u0027\s]{5,200}))$/"
+					data-ng-model="fornecedor.novo.contato_fornecedor"
+					data-ng-class="{'invalid': formFornecedor.contato_fornecedor.$error.minlength || formFornecedor.contato_fornecedor.$error.pattern}"
+					data-uppercase>
+				<label for="contato_fornecedor">Contato</label>
+			</div>
+			<div class="input-field col s12 m6 l6">
+				<i class="material-icons prefix">mail</i>
+				<input id="email_fornecedor" name="email_fornecedor" maxlength="50" required data-ng-minlength="10"
+					data-ng-pattern="/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/" type="email"
+					data-ng-class="{'invalid': formFornecedor.email_fornecedor.$error.minlength || formFornecedor.email_fornecedor.$error.pattern}"
+					data-ng-model="fornecedor.novo.email_fornecedor">
+				<label for="email_fornecedor">Email</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12 m2 l2">
+				<input id="cep_fornecedor" name="cep_fornecedor" type="text" maxlength="9" required
+					data-ng-minlength="9" data-ng-pattern="/^((?=\S)(\d{5}-\d{3}))$/"
+					data-ng-model="fornecedor.novo.cep_fornecedor"
+					data-ng-blur="fornecedor.getEndereco(fornecedor.novo.cep_fornecedor)"
+					data-ng-class="{'invalid': formFornecedor.cep_fornecedor.$error.minlength || formFornecedor.cep_fornecedor.$error.pattern}"
+					data-uicep>
+				<label for="cep_fornecedor">Cep</label>
+			</div>
+			<div class="input-field col s10 m8 l8">
+				<i class="material-icons prefix">map</i>
+				<input id="cidade_fornecedor" name="cidade_fornecedor" type="text" maxlength="200" required
+					data-ng-minlength="5" data-ng-pattern="/^((?=\S)([A-Z0-9\.\,\u00C0-\u00FF\s]{5,200}))$/"
+					data-ng-model="fornecedor.novo.cidade_fornecedor"
+					data-ng-class="{'invalid': formFornecedor.cidade_fornecedor.$error.minlength || formFornecedor.cidade_fornecedor.$error.pattern}"
+					data-uppercase>
+				<label for="cidade_fornecedor">Cidade</label>
+			</div>
+			<div class="input-field col s2 m2 l2">
+				<input id="estado_fornecedor" name="estado_fornecedor" type="text" maxlength="2" data-ng-minlength="2"
+					data-ng-pattern="/^((?=\S)([A-Z]{2}))$/" data-ng-model="fornecedor.novo.estado_fornecedor"
+					data-ng-class="{'invalid': formFornecedor.estado_fornecedor.$error.minlength || formFornecedor.estado_fornecedor.$error.pattern}"
+					data-uppercase>
+				<label for="estado_fornecedor">Estado</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s10 m10 l10">
+				<i class="material-icons prefix">place</i>
+				<input id="endereco_fornecedor" name="endereco_fornecedor" type="text" maxlength="300" required
+					data-ng-minlength="5" data-ng-pattern="/^((?=\w\S)([A-Z0-9\.\,\u00C0-\u00FF\u0027\s]{5,300}))$/"
+					data-ng-model="fornecedor.novo.logradouro_fornecedor"
+					data-ng-class="{'invalid': formFornecedor.endereco_fornecedor.$error.minlength || formFornecedor.endereco_fornecedor.$error.pattern}"
+					data-uppercase>
+				<label for="endereco_fornecedor">Endereço</label>
+			</div>
+			<div class="input-field col s2 m2 l2">
+				<input id="numero_fornecedor" name="numero_fornecedor" type="text" maxlength="10" required
+					data-ng-minlength="1" data-ng-pattern="/(^\d{1,10}[A-Z]?)|(S\/N)$/"
+					data-ng-model="fornecedor.novo.numero_fornecedor"
+					data-ng-class="{'invalid': formFornecedor.numero_fornecedor.$error.minlength || formFornecedor.numero_fornecedor.$error.pattern}"
+					data-uppercase>
+				<label for="numero_fornecedor">N˚</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12 m6 l6">
+				<input id="bairro_fornecedor" name="bairro_fornecedor" type="text" maxlength="200" required
+					data-ng-minlength="5" data-ng-pattern="/^((?=\S)([A-Z0-9\.\,\u00C0-\u00FF\s]{5,200}))$/"
+					data-ng-model="fornecedor.novo.bairro_fornecedor"
+					data-ng-class="{'invalid': formFornecedor.bairro_fornecedor.$error.minlength || formFornecedor.bairro_fornecedor.$error.pattern}"
+					data-uppercase>
+				<label for="bairro_fornecedor">Bairro</label>
+			</div>
+			<div class="input-field col s12 m6 l6">
+				<input id="complemento_fornecedor" name="complemento_fornecedor" type="text" maxlength="200"
+					data-ng-minlength="5" data-ng-pattern="/^((?=\S)([A-Z0-9\.\,\u00C0-\u00FF\s]{5,200}))$/"
+					data-ng-model="fornecedor.novo.complemento_fornecedor"
+					data-ng-class="{'invalid': formFornecedor.complemento_fornecedor.$error.minlength || formFornecedor.complemento_fornecedor.$error.pattern}"
+					data-uppercase>
+				<label for="complemento_fornecedor">Complemento</label>
+			</div>
+		</div>
+		<div class="row right-align">
+			<button class="waves-effect waves-light btn" data-ng-disabled="formFornecedor.$invalid">Atualizar</button>
+		</div>
+	</form>
+</div>

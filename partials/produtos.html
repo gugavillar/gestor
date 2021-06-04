@@ -1,0 +1,61 @@
+<div class="container">
+	<h5 class="center-align"><strong>Cadastrar Produto</strong></h5>
+	<form class="col s12 m12 l12" name="formProduto" data-ng-submit="produto.cadastrar()">
+		<div class="row">
+			<div class="input-field col s12 m12 l12">
+				<i class="material-icons prefix">shopping_cart</i>
+				<input id="descricao_produto" name="descricao_produto" type="text" maxlength="400" required
+					data-ng-minlength="4" data-ng-pattern="/^((?=\w\S)(.){4,400})/"
+					data-ng-class="{'invalid': formProduto.descricao_produto.$error.minlength || formProduto.descricao_produto.$error.pattern}"
+					data-ng-model="produto.novo.descricao_produto" data-uppercase>
+				<label for="descricao_produto">Descrição do Produto</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12 m6 l6">
+				<input id="fabricante_produto" name="fabricante_produto" type="text" maxlength="200"
+					data-ng-minlength="2" data-ng-pattern="/^((?=\w\S)([A-Z0-9\.\,\\/\u00C0-\u00FF\s]{2,200}))$/"
+					data-ng-class="{'invalid': formProduto.fabricante_produto.$error.minlength || formProduto.fabricante_produto.$error.pattern}"
+					data-ng-model="produto.novo.fabricante_produto" data-uppercase>
+				<label for="fabricante_produto">Fabricante/Marca</label>
+			</div>
+			<div class="input-field col s8 m4 l4">
+				<i class="material-icons prefix">local_offer</i>
+				<input id="localizacao_produto" name="localizacao_produto" type="text" maxlength="100"
+					data-ng-minlength="4" data-ng-pattern="/^((?=\w\S)([A-Z0-9\.\,\u00C0-\u00FF\s]{4,100}))$/"
+					data-ng-class="{'invalid': formProduto.localizacao_produto.$error.minlength || formProduto.localizacao_produto.$error.pattern}"
+					data-ng-model="produto.novo.localizacao_produto" data-uppercase>
+				<label for="localizacao_produto">Localização</label>
+			</div>
+			<div class="input-field col s4 m2 l2">
+				<input id="unidade_produto" name="unidade_produto" type="text" maxlength="2" required
+					data-ng-model="produto.novo.unidade_produto" data-ng-minlength="1"
+					data-ng-pattern="/^(([A-Z]{1,2}))$/"
+					data-ng-class="{'invalid': formProduto.unidade_produto.$error.minlength || formProduto.unidade_produto.$error.pattern}"
+					data-uppercase>
+				<label for="unidade_produto">Unidade</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s6 m4 l3 offset-m4 offset-l6">
+				<i class="material-icons prefix">attach_money</i>
+				<input class="right-align" id="valor_produto" name="valor_produto" type="text" maxlength="10"
+					data-ng-minlength="3" data-ng-pattern="/^((?=\S)\d{1,3}(?:\.\d{3})*,\d{2})$/"
+					data-ng-class="{'invalid': formProduto.valor_produto.$error.minlength || formProduto.valor_produto.$error.pattern}"
+					data-ng-model="produto.novo.valor_produto" data-uimoney required>
+				<label for="valor_produto">Valor Unitário</label>
+			</div>
+			<div class="input-field col s6 m4 l3">
+				<input class="right-align" id="estoque_minimo_produto" name="estoque_minimo_produto" type="text"
+					required data-ng-model="produto.novo.estoque_minimo_produto" data-ng-pattern="/^((?=\S)(\d{1,8}))$/"
+					data-ng-minlength="1"
+					data-ng-class="{'invalid': formProduto.estoque_minimo_produto.$error.minlength || formProduto.estoque_minimo_produto.$error.pattern}"
+					data-uinum maxlength="8">
+				<label for="estoque_minimo_produto">Estoque Mínimo</label>
+			</div>
+		</div>
+		<div class="row right-align">
+			<button class="waves-effect waves-light btn" data-ng-disabled="formProduto.$invalid">Cadastrar</button>
+		</div>
+	</form>
+</div>

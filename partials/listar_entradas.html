@@ -1,0 +1,37 @@
+<div class="container big">
+	<h5 class="center-align"><strong>Lista de Guias de Entrada</strong></h5>
+	<div class="row">
+		<div class="input-field col s6 m4 l4 offset-s6 offset-m8 offset-l8">
+			<i class="material-icons prefix">search</i>
+			<input class="tooltipped" id="query" name="query" type="text" maxlength="10" data-ng-model="lista.query"
+				data-ng-change="lista.search()" data-uinum data-position="bottom" data-tooltip="Digite número da nota">
+			<label for="query">Buscar Entrada</label>
+		</div>
+	</div>
+	<table class="table highlight responsive-table centered" at-table at-paginated at-list="lista.guides"
+		at-config="lista.config">
+		<thead></thead>
+		<tbody>
+			<tr>
+				<td width="8%" at-title="Nº Guia" at-implicit at-attribute="num_entrada"></td>
+				<td at-title="Fornecedor" at-implicit at-attribute="nome_fornecedor" width="21%"></td>
+				<td width="10%" at-title="Nº Nota" at-implicit at-attribute="num_nota_entrada" at-sortable></td>
+				<td width="15%" at-title="Emissão da Nota"
+					data-ng-bind="(item.data_emissao_nota_entrada | date:'dd/MM/yyyy')"></td>
+				<td at-title="Recurso" width="21%" data-ng-bind="(item.id_recurso_entrada | recurso)"></td>
+				<td width="15%" at-title="Data da Entrada" data-ng-bind="(item.data_entrada | date:'dd/MM/yyyy')"></td>
+				<td at-title="Ação" width="10%">
+					<button tooltips class="btn-floating hide-on-med-and-down" tooltip-side="bottom"
+						tooltip-template="Editar guia de entrada"
+						data-ui-sref="menu.editarguiaentrada({id_entrada: item.id_entrada})"><i
+							class="material-icons">mode_edit</i></button>
+					<a tooltips class="btn-floating blue darken-2" tooltip-side="bottom"
+						tooltip-template="Visualizar guia de entrada"
+						data-ui-sref="menu.imprimirguiaentrada({id_entrada: item.id_entrada})"><i
+							class="material-icons">description</i></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<at-pagination class="right-align" at-list="lista.guides" at-config="lista.config"></at-pagination>
+</div>

@@ -1,0 +1,112 @@
+<div class="container">
+	<h5 class="center-align"><strong>Editar Veículo</strong></h5>
+	<form class="col s12 m12 l12" name="formVeiculo" data-ng-submit="veiculo.editar()">
+		<div class="row">
+			<div class="input-field col s12 m6 l6">
+				<select id="tipo_veiculo" name="tipo_veiculo" required data-ng-model="veiculo.novo.tipo_veiculo"
+					data-ng-change="veiculo.getMarcas(veiculo.novo.tipo_veiculo)">
+					<option value="" disabled>TIPO DO VEÍCULO</option>
+					<option value="CARROS">CARROS</option>
+					<option value="MOTOS">MOTOS</option>
+					<option value="CAMINHOES">CAMINHÕES</option>
+				</select>
+				<label>Tipo do Veículo</label>
+			</div>
+			<div class="input-field col s12 m6 l6">
+				<select id="marca_veiculo" name="marca_veiculo" required data-ng-model="veiculo.novo.marca_veiculo"
+					data-ng-options="item.codigo as (item.nome | uppercase) for item in veiculo.marcas | orderBy:'nome'"
+					data-ng-change="veiculo.getModelo(veiculo.novo.marca_veiculo)">
+					<option value="" disabled>MARCA DO VEÍCULO</option>
+				</select>
+				<label>Marca do Veículo</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12 m12 l12">
+				<select id="modelo_veiculo" name="modelo_veiculo" required data-ng-model="veiculo.novo.modelo_veiculo"
+					data-ng-options="item.codigo as (item.nome | uppercase) for item in veiculo.modelos">
+					<option value="" disabled>MODELO DO VEÍCULO</option>
+				</select>
+				<label>Modelo do Veículo</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12 m4 l4">
+				<input id="placa_veiculo" name="placa_veiculo" maxlength="8" required data-ng-minlength="8"
+					data-ng-pattern="/^((\w){3}-(\w){4})$/" type="text" data-ng-model="veiculo.novo.placa_veiculo"
+					data-ng-class="{'invalid': formVeiculo.placa_veiculo.$error.minlength || formVeiculo.placa_veiculo.$error.pattern}"
+					data-uiplaca>
+				<label for="placa_veiculo">Placa</label>
+			</div>
+			<div class="input-field col s12 m4 l4">
+				<input id="renavam_veiculo" name="renavam_veiculo" maxlength="11" required data-ng-minlength="11"
+					data-ng-pattern="/^(\d{11})/" type="text" data-ng-model="veiculo.novo.renavam_veiculo"
+					data-ng-class="{'invalid': formVeiculo.renavam_veiculo.$error.minlength || formVeiculo.renavam_veiculo.$error.pattern}"
+					data-uinum>
+				<label for="renavam_veiculo">Renavam</label>
+			</div>
+			<div class="input-field col s12 m2 l2">
+				<input id="ano_fabricacao_veiculo" name="ano_fabricacao_veiculo" type="text" maxlength="4" required
+					data-ng-minlength="4" data-ng-pattern="/^(\d{4})/"
+					data-ng-model="veiculo.novo.ano_fabricacao_veiculo"
+					data-ng-class="{'invalid': formVeiculo.ano_fabricacao_veiculo.$error.minlength || formVeiculo.ano_fabricacao_veiculo.$error.pattern}"
+					data-uinum>
+				<label for="ano_fabricacao_veiculo">Ano Fabricação</label>
+			</div>
+			<div class="input-field col s12 m2 l2">
+				<input id="ano_modelo_veiculo" name="ano_modelo_veiculo" type="text" maxlength="4" required
+					data-ng-minlength="4" data-ng-pattern="/^(\d{4})/" data-ng-model="veiculo.novo.ano_modelo_veiculo"
+					data-ng-class="{'invalid': formVeiculo.ano_modelo_veiculo.$error.minlength || formVeiculo.ano_modelo_veiculo.$error.pattern}"
+					data-uinum>
+				<label for="ano_modelo_veiculo">Ano Modelo</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12 m6 l6">
+				<select id="combustivel_veiculo" name="combustivel_veiculo" required
+					data-ng-model="veiculo.novo.combustivel_veiculo">
+					<option value="" disabled>COMBUSTÍVEL DO VEÍCULO</option>
+					<option value="1">GASOLINA</option>
+					<option value="2">ÁLCOOL</option>
+					<option value="3">DISEL</option>
+					<option value="4">GNV</option>
+					<option value="5">FLEX</option>
+					<option value="6">TETRAFUEL</option>
+				</select>
+				<label>Combustível do Veículo</label>
+			</div>
+			<div class="input-field col s6 m6 l6">
+				<input id="cor_veiculo" name="cor_veiculo" type="text" maxlength="20" required data-ng-minlength="4"
+					data-ng-pattern="/^((?=\w\S)([A-Z\u00C0-\u00FF\u0027\s]{4,20}))$/"
+					data-ng-model="veiculo.novo.cor_veiculo"
+					data-ng-class="{'invalid': formVeiculo.cor_veiculo.$error.minlength || formVeiculo.cor_veiculo.$error.pattern}"
+					data-uppercase>
+				<label for="cor_veiculo">Cor Veículo</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12 m6 l6">
+				<select id="situacao_veiculo" name="situacao_veiculo" required
+					data-ng-model="veiculo.novo.situacao_veiculo">
+					<option value="" disabled>SITUAÇÃO DO VEÍCULO</option>
+					<option value="1">ATIVO</option>
+					<option value="2">MANUTENÇÃO</option>
+					<option value="3">BAIXADO</option>
+				</select>
+				<label>Situação do Veículo</label>
+			</div>
+			<div class="input-field col s12 m6 l6">
+				<select id="tipo_frota_veiculo" name="tipo_frota_veiculo" required
+					data-ng-model="veiculo.novo.tipo_frota_veiculo">
+					<option value="" disabled>TIPO DE FROTA DO VEÍCULO</option>
+					<option value="1">PRÓPRIA</option>
+					<option value="2">LOCADA</option>
+				</select>
+				<label>Tipo de Frota do Veículo</label>
+			</div>
+		</div>
+		<div class="row right-align">
+			<button class="waves-effect waves-light btn" data-ng-disabled="formVeiculo.$invalid">Atualizar</button>
+		</div>
+	</form>
+</div>
